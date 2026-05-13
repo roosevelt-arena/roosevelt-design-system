@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roosevelt OPS — Headless Design System Prototype v0.4</title>
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css">
+<style>
+  /* ============================================
+     Roosevelt OPS — Design Tokens (DTCG → CSS)
+     Bron: tokens.json v0.1 + bauhaus-canon §1.1–1.5
+     ============================================ */
+  :root {
+    /* Layer 1 — Neutraal (structuur) */
+    --c-neutral-0:    #FFFFFF;
+    --c-neutral-50:   #FAFAFA;
+    --c-neutral-100:  #F2F2F2;
+    --c-neutral-200:  #E5E5E5;
+    --c-neutral-300:  #D1D1D1;
+    --c-neutral-400:  #A3A3A3;
+    --c-neutral-500:  #737373;
+    --c-neutral-600:  #525252;
+    --c-neutral-700:  #404040;
+    --c-neutral-800:  #262626;
+    --c-neutral-900:  #171717;
+    --c-neutral-950:  #0A0A0A;
+
+    /* Layer 1 — Primair (Weimar-semantiek) */
+    --c-blue-50:   #EFF4FB;
+    --c-blue-300:  #7CA4D6;
+    --c-blue-500:  #1E4D8C;
+    --c-blue-600:  #163C70;
+    --c-blue-700:  #102C54;
+
+    --c-red-50:    #FEF2F2;
+    --c-red-300:   #FCA5A5;
+    --c-red-500:   #C8332B;
+    --c-red-600:   #A82420;
+    --c-red-700:   #871A18;
+
+    --c-yellow-50:  #FFFBEB;
+    --c-yellow-300: #FCD34D;
+    --c-yellow-500: #E8B306;
+    --c-yellow-600: #B88A04;
+    --c-yellow-700: #8A6803;
+
+    --c-green-500: #1F7A3A;
+    --c-green-600: #176030;
+
+    /* Layer 2 — Semantic */
+    --bg-base:      var(--c-neutral-0);
+    --bg-surface:   var(--c-neutral-50);
+    --bg-inverse:   var(--c-neutral-950);
+
+    --text-primary:   var(--c-neutral-950);
+    --text-secondary: var(--c-neutral-600);
+    --text-tertiary:  var(--c-neutral-400);
+    --text-accent:    var(--c-blue-500);
+    --text-inverse:   var(--c-neutral-0);
+
+    --border-subtle:  var(--c-neutral-200);
+    --border-default: var(--c-neutral-300);
+    --border-strong:  var(--c-neutral-950);
+
+    --agent-strategic: var(--c-blue-500);
+    --agent-risk:      var(--c-red-500);
+    --agent-advisory:  var(--c-yellow-500);
+    --agent-technical: var(--c-neutral-800);
+
+    --status-idle:      var(--c-neutral-400);
+    --status-running:   var(--c-blue-500);
+    --status-approval:  var(--c-yellow-500);
+    --status-completed: var(--c-green-500);
+    --status-error:     var(--c-red-500);
+
+    /* Typografie (Dessau §1.2 + Bayer-erfgenaam) */
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
+
+    --typo-display:    600 49px/56px var(--font-sans);
+    --typo-h1:         600 39px/48px var(--font-sans);
+    --typo-h2:         600 31px/40px var(--font-sans);
+    --typo-h3:         600 25px/32px var(--font-sans);
+    --typo-h4:         500 20px/28px var(--font-sans);
+    --typo-body:       400 16px/24px var(--font-sans);
+    --typo-body-sm:    400 14px/20px var(--font-sans);
+    --typo-caption:    400 12px/16px var(--font-sans);
+    --typo-label:      500 14px/20px var(--font-sans);
+    --typo-code:       400 14px/20px var(--font-mono);
+    --typo-data:       500 16px/24px var(--font-mono);
+
+    /* Spacing (Bauhaus 8px + Gugelot M125) */
+    --space-1:  4px;   --space-2:  8px;   --space-3:  12px;  --space-4:  16px;
+    --space-5:  20px;  --space-6:  24px;  --space-8:  32px;  --space-10: 40px;
+    --space-12: 48px;  --space-16: 64px;  --space-20: 80px;  --space-24: 96px;
+
+    /* Radius (De Stijl §1.3) */
+    --radius-none: 0px;
+    --radius-sm:   2px;
+    --radius-md:   4px;
+    --radius-full: 9999px;
+
+    /* Border (Mondriaan-zwartlijn) */
+    --border-1: 1px;
+    --border-2: 2px;
+
+    /* Shadow (Rams-ehrlich §1.5) */
+    --shadow-none: none;
+    --shadow-floating: 0 4px 12px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-focus: 0 0 0 2px var(--c-blue-500);
+
+    /* Motion (Ronde 4 — Ulm-rationalisme + human-touch) */
+    --duration-instant:    0ms;
+    --duration-fast:       120ms;
+    --duration-normal:     200ms;
+    --duration-slow:       320ms;
+    --duration-deliberate: 480ms;
+    --duration-base: var(--duration-normal); /* legacy alias */
+    --ease-linear:  cubic-bezier(0, 0, 1, 1);
+    --ease-out:     cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out:  cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Elevation (Ronde 4 — Rams "ehrlich") */
+    --elevation-none:   none;
+    --elevation-subtle: 0 1px 3px rgba(0,0,0,0.06);
+    --elevation-raised: 0 4px 12px rgba(0,0,0,0.12);
+
+    /* Focus (Ronde 4 — WCAG 2.4.13) */
+    --focus-ring-width:  2px;
+    --focus-ring-offset: 2px;
+    --focus-ring-color:  var(--c-blue-500);
+
+    /* Grid (Ronde 4 — De Stijl asymmetrisch 12-koloms) */
+    --grid-cols-mobile:  4;
+    --grid-cols-tablet:  8;
+    --grid-cols-desktop: 12;
+    --grid-gutter:       24px;
+    --grid-max-width:    1280px;
+  }
+
+  /* Globale focus-stijl */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /* ============================================
+     Reset + base
+     ============================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font: var(--typo-body);
+    color: var(--text-primary);
+    background: var(--bg-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body { min-height: 100vh; }
+
+  /* ============================================
+     Layout — asymmetrisch-orthogonaal (De Stijl)
+     ============================================ */
+  .canvas {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-8);
+  }
+
+  .canvas > header {
+    border-bottom: var(--border-2) solid var(--border-strong);
+    padding-bottom: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  .canvas > section {
+    margin-bottom: var(--space-16);
+  }
+
+  /* Section-titel — Mondriaan-vlakken */
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-8);
+    align-items: end;
+    padding-bottom: var(--space-4);
+    margin-bottom: var(--space-8);
+    border-bottom: var(--border-1) solid var(--border-default);
+  }
+  .section-head h2 {
+    font: var(--typo-h2);
+    letter-spacing: -0.02em;
+  }
+  .section-head p {
+    color: var(--text-secondary);
+    max-width: 60ch;
+  }
+
+  /* ============================================
+     Header — manifest-style
+     ============================================ */
+  .manifest-eyebrow {
+    font: var(--typo-label);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-accent);
+    margin-bottom: var(--space-3);
+  }
+  .manifest-title {
+    font: var(--typo-display);
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+    margin-bottom: var(--space-4);
+  }
+  .manifest-sub {
+    color: var(--text-secondary);
+    max-width: 65ch;
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .manifest-meta {
+    margin-top: var(--space-8);
+    display: flex;
+    gap: var(--space-8);
+    font: var(--typo-code);
+    color: var(--text-secondary);
+  }
+  .manifest-meta span { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .manifest-meta .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: var(--radius-full);
+    background: var(--c-blue-500);
+  }
+
+  /* ============================================
+     Typografie-staal
+     ============================================ */
+  .type-scale { display: grid; gap: var(--space-3); }
+  .type-row {
+    display: grid;
+    grid-template-columns: 80px 100px 1fr;
+    align-items: baseline;
+    padding: var(--space-3) 0;
+    border-bottom: var(--border-1) solid var(--border-subtle);
+  }
+  .type-row code { font: var(--typo-code); color: var(--text-secondary); }
+  .type-row .preview { color: var(--text-primary); }
+
+  /* ============================================
+     Kleur-staal (swatches)
+     ============================================ */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-3);
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+  }
+  .swatch-tile {
+    height: 80px;
+    border: var(--border-1) solid var(--border-subtle);
+  }
+  .swatch-meta {
+    padding-top: var(--space-2);
+    font: var(--typo-code);
+    color: var(--text-secondary);
+    display: grid;
+    gap: 2px;
+  }
+  .swatch-meta strong {
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* Agent-rol staal — groter, met label */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+  }
+  .agent-card {
+    border: var(--border-1) solid var(--border-default);
+    padding: var(--space-6);
+  }
+  .agent-stripe {
+    height: 4px;
+    margin-bottom: var(--space-4);
+  }
+  .agent-card h4 { font: var(--typo-h4); margin-bottom: var(--space-2); }
+  .agent-card p { font: var(--typo-body-sm); color: var(--text-secondary); }
+  .agent-card code { font: var(--typo-code); color: var(--text-tertiary); display: block; margin-top: var(--space-3); }
+
+  /* ============================================
+     Pipeline F0–F9 — Ulm-systeem
+     ============================================ */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 0;
+    border: var(--border-1) solid var(--border-strong);
+  }
+  .pipe-step {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-right: var(--border-1) solid var(--border-strong);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .pipe-step:last-child { border-right: none; }
+  .pipe-step .pipe-code {
+    font: var(--typo-data);
+    font-size: 20px;
+    color: var(--text-primary);
+  }
+  .pipe-step .pipe-label {
+    font: var(--typo-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-top: var(--space-1);
+  }
+  .pipe-step.active .pipe-code,
+  .pipe-step.active .pipe-label { color: var(--text-inverse); }
+
+  /* Pipeline-fase-kleuren (Layer 4) */
+  .pipe-F0 { background: var(--c-neutral-300); }
+  .pipe-F1 { background: var(--c-neutral-400); }
+  .pipe-F2 { background: var(--c-neutral-500); }
+  .pipe-F3 { background: var(--c-blue-300); }
+  .pipe-F4 { background: var(--c-blue-500); }
+  .pipe-F5 { background: var(--c-blue-700); }
+  .pipe-F6 { background: var(--c-yellow-500); }
+  .pipe-F7 { background: var(--c-yellow-700); }
+  .pipe-F8 { background: var(--c-green-500); }
+  .pipe-F9 { background: var(--c-green-600); }
+
+  /* Lichte fases — donkere tekst */
+  .pipe-F0, .pipe-F1, .pipe-F2, .pipe-F3, .pipe-F6 {
+    color: var(--text-primary);
+  }
+  .pipe-F0 .pipe-code, .pipe-F1 .pipe-code, .pipe-F2 .pipe-code, .pipe-F3 .pipe-code, .pipe-F6 .pipe-code {
+    color: var(--text-primary);
+  }
+  .pipe-F0 .pipe-label, .pipe-F1 .pipe-label, .pipe-F2 .pipe-label, .pipe-F3 .pipe-label, .pipe-F6 .pipe-label {
+    color: var(--text-primary); opacity: 0.7;
+  }
+  /* Donkere fases — witte tekst */
+  .pipe-F4, .pipe-F5, .pipe-F7, .pipe-F8, .pipe-F9 {
+    color: var(--text-inverse);
+  }
+  .pipe-F4 .pipe-code, .pipe-F5 .pipe-code, .pipe-F7 .pipe-code, .pipe-F8 .pipe-code, .pipe-F9 .pipe-code {
+    color: var(--text-inverse);
+  }
+  .pipe-F4 .pipe-label, .pipe-F5 .pipe-label, .pipe-F7 .pipe-label, .pipe-F8 .pipe-label, .pipe-F9 .pipe-label {
+    color: var(--text-inverse); opacity: 0.75;
+  }
+
+  /* ============================================
+     Status-badges
+     ============================================ */
+  .status-row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    font: var(--typo-label);
+    border-radius: var(--radius-sm);
+    border: var(--border-1) solid transparent;
+  }
+  .badge .dot {
+    width: 8px; height: 8px; border-radius: var(--radius-full); flex-shrink: 0;
+  }
+  .badge-idle      { background: var(--c-neutral-100); color: var(--c-neutral-700); border-color: var(--c-neutral-200); }
+  .badge-idle .dot { background: var(--status-idle); }
+  .badge-running   { background: var(--c-blue-50);    color: var(--c-blue-700);    border-color: var(--c-blue-300); }
+  .badge-running .dot { background: var(--status-running); animation: pulse 2s var(--ease-out) infinite; }
+  .badge-approval  { background: var(--c-yellow-50);  color: var(--c-yellow-700);  border-color: var(--c-yellow-300); }
+  .badge-approval .dot { background: var(--status-approval); }
+  .badge-completed { background: #ECFDF5;             color: var(--c-green-600);   border-color: #BBF7D0; }
+  .badge-completed .dot { background: var(--status-completed); }
+  .badge-error     { background: var(--c-red-50);     color: var(--c-red-700);     border-color: var(--c-red-300); }
+  .badge-error .dot { background: var(--status-error); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.6; transform: scale(1.2); }
+  }
+
+  /* ============================================
+     Knoppen — Bauhaus-rust
+     ============================================ */
+  .btn-row { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+  .btn {
+    font: var(--typo-label);
+    padding: 10px var(--space-4);
+    border: var(--border-1) solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+  .btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+  .btn-primary    { background: var(--c-blue-500); color: var(--c-neutral-0); }
+  .btn-primary:hover { background: var(--c-blue-600); }
+  .btn-secondary  { background: var(--c-neutral-0); color: var(--c-neutral-950); border-color: var(--c-neutral-950); }
+  .btn-secondary:hover { background: var(--c-neutral-100); }
+  .btn-destructive{ background: var(--c-red-500); color: var(--c-neutral-0); }
+  .btn-destructive:hover { background: var(--c-red-600); }
+  .btn-advisory   { background: var(--c-yellow-500); color: var(--c-neutral-950); }
+  .btn-advisory:hover { background: var(--c-yellow-600); }
+
+  /* ============================================
+     Agent-rol-card (rapport-stijl)
+     ============================================ */
+  .report-card {
+    border: var(--border-1) solid var(--border-default);
+    padding: var(--space-6);
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: var(--space-4);
+  }
+  .report-card-stripe { width: 4px; }
+  .report-card.strategic .report-card-stripe { background: var(--agent-strategic); }
+  .report-card.risk      .report-card-stripe { background: var(--agent-risk); }
+  .report-card.advisory  .report-card-stripe { background: var(--agent-advisory); }
+  .report-card.technical .report-card-stripe { background: var(--agent-technical); }
+
+  .report-card h3 { font: var(--typo-h3); margin-bottom: var(--space-2); letter-spacing: -0.015em; }
+  .report-card .role-label {
+    font: var(--typo-label);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-1);
+  }
+  .report-card p { color: var(--text-secondary); margin-bottom: var(--space-3); max-width: 60ch; }
+  .report-card .metrics { display: flex; gap: var(--space-6); font: var(--typo-data); }
+  .report-card .metric-label { font: var(--typo-caption); text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary); display: block; }
+
+  .report-grid { display: grid; gap: var(--space-4); }
+
+  /* ============================================
+     Canon-statement (Mondriaan-blok)
+     ============================================ */
+  .canon {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: var(--border-2);
+    background: var(--border-strong);
+    border: var(--border-2) solid var(--border-strong);
+    aspect-ratio: 16 / 7;
+  }
+  .canon-cell { padding: var(--space-6); display: flex; flex-direction: column; justify-content: space-between; }
+  .canon-cell.lg { grid-column: 1; grid-row: 1 / 3; background: var(--c-neutral-0); }
+  .canon-cell.red    { background: var(--c-red-500);    color: var(--c-neutral-0); }
+  .canon-cell.blue   { background: var(--c-blue-500);   color: var(--c-neutral-0); }
+  .canon-cell.yellow { background: var(--c-yellow-500); color: var(--c-neutral-950); }
+  .canon-cell.white  { background: var(--c-neutral-0); }
+  .canon-cell h3 { font: var(--typo-h3); letter-spacing: -0.015em; }
+  .canon-cell h2 { font: var(--typo-h1); letter-spacing: -0.025em; max-width: 14ch; }
+  .canon-cell p { font: var(--typo-body-sm); opacity: 0.9; max-width: 25ch; }
+  .canon-cell code { font: var(--typo-caption); font-family: var(--font-mono); opacity: 0.7; }
+
+  /* ============================================
+     Footer
+     ============================================ */
+  footer {
+    border-top: var(--border-2) solid var(--border-strong);
+    padding-top: var(--space-6);
+    margin-top: var(--space-16);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-8);
+    font: var(--typo-body-sm);
+    color: var(--text-secondary);
+  }
+  footer code { font: var(--typo-code); color: var(--text-primary); }
+
+  /* Responsive */
+  @media (max-width: 880px) {
+    .agent-grid { grid-template-columns: repeat(2, 1fr); }
+    .canon { grid-template-columns: 1fr 1fr; aspect-ratio: 1; }
+    .canon-cell.lg { grid-column: 1 / 3; }
+    .pipeline { grid-template-columns: repeat(5, 1fr); }
+    .pipe-step { aspect-ratio: 1; }
+    .section-head { grid-template-columns: 1fr; }
+    .manifest-title { font: 600 39px/48px var(--font-sans); letter-spacing: -0.025em; }
+  }
+
+  /* ============================================
+     Ronde 4 — Grid demo
+     ============================================ */
+  .grid-demo {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grid-gutter);
+    margin-top: var(--space-6);
+  }
+  .grid-cell {
+    background: var(--c-blue-50);
+    border-left: 2px solid var(--c-blue-500);
+    color: var(--c-blue-700);
+    font: var(--typo-label);
+    padding: var(--space-3) var(--space-4);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  .grid-col-1  { grid-column: span 1; }
+  .grid-col-2  { grid-column: span 2; }
+  .grid-col-3  { grid-column: span 3; }
+  .grid-col-7  { grid-column: span 7; }
+  .grid-col-9  { grid-column: span 9; }
+  @media (max-width: 880px) {
+    .grid-demo { gap: 8px; }
+    .grid-cell { font: 500 11px/14px var(--font-mono); padding: var(--space-2); min-height: 40px; }
+  }
+
+  /* ============================================
+     Ronde 4 — Spacing demo
+     ============================================ */
+  .spacing-demo {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .spacing-label {
+    font: var(--typo-data);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-secondary);
+    min-width: 56px;
+    text-align: right;
+  }
+  .spacing-bar {
+    height: 16px;
+    background: var(--c-neutral-950);
+    min-width: 0;
+  }
+
+  /* ============================================
+     Ronde 4 — Shape (radius / border / elevation) demo
+     ============================================ */
+  .shape-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+  .shape-block {
+    background: var(--c-neutral-0);
+    padding: var(--space-6);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .shape-tag {
+    font: var(--typo-data);
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+  .shape-meta {
+    font: var(--typo-caption);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 880px) {
+    .shape-row { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================
+     Ronde 4 — Motion demo
+     ============================================ */
+  .motion-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .motion-card {
+    border: 1px solid var(--border-subtle);
+    padding: var(--space-4);
+  }
+  .motion-token {
+    font: var(--typo-label);
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+  }
+  .motion-value {
+    font: var(--typo-caption);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+    font-variant-numeric: tabular-nums;
+  }
+  .motion-bar {
+    height: 4px;
+    background: var(--c-neutral-100);
+    overflow: hidden;
+  }
+  .motion-fill {
+    height: 100%;
+    background: var(--c-blue-500);
+    width: 100%;
+    transform-origin: left;
+    animation-name: motionPulse;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-iteration-count: infinite;
+  }
+  @keyframes motionPulse {
+    0%   { transform: scaleX(0); }
+    50%  { transform: scaleX(1); }
+    100% { transform: scaleX(0); }
+  }
+  @media (max-width: 880px) {
+    .motion-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .motion-note {
+    margin-top: var(--space-4);
+    font: var(--typo-caption);
+    color: var(--text-secondary);
+  }
+
+  /* ============================================
+     Ronde 4 — Focus demo
+     ============================================ */
+  .focus-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+  .focus-demo-input {
+    font: var(--typo-body);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    background: var(--c-neutral-0);
+    color: var(--text-primary);
+    min-width: 200px;
+  }
+  .focus-demo-link {
+    font: var(--typo-body);
+    color: var(--c-blue-500);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+
+  <!-- ============================================
+       MANIFEST HEADER
+       ============================================ -->
+  <header>
+    <div class="manifest-eyebrow">Roosevelt OPS — Headless Design System</div>
+    <h1 class="manifest-title">Een Bauhaus-canon voor operational excellence.</h1>
+    <p class="manifest-sub">
+      Vijf stromingen — Weimar, Dessau, De Stijl, Ulm en Gugelot/Rams — vertaald naar één meetbaar designsysteem voor de F0–F9 adviespipeline. Niet generiek, niet corporate-koud, niet hype-AI.
+    </p>
+    <div class="manifest-meta">
+      <span><span class="dot"></span>v0.1 · 14 mei 2026</span>
+      <span><span class="dot" style="background: var(--c-yellow-500);"></span>Concept &amp; Design fase</span>
+      <span><span class="dot" style="background: var(--c-red-500);"></span>DSR · ICIS 2026 Lissabon</span>
+    </div>
+  </header>
+
+  <!-- ============================================
+       CANON-STATEMENT (Mondriaan-blok)
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>De canon</h2>
+      <p>Vijf stromingen, één formule. Bij conflict wint de canon altijd — geen designbeslissing zonder anker in een van deze pijlers.</p>
+    </div>
+    <div class="canon">
+      <div class="canon-cell lg">
+        <div>
+          <code>DNA-formule</code>
+        </div>
+        <h2>Weimar + Dessau + De&nbsp;Stijl + Ulm + Gugelot</h2>
+        <p>Kleur als semantiek, typografie als systeem, orthogonale strengheid, pictogrammen als taal, productdiscipline als ethiek.</p>
+      </div>
+      <div class="canon-cell red">
+        <code>§1.1 Weimar</code>
+        <h3>Risk</h3>
+      </div>
+      <div class="canon-cell blue">
+        <code>§1.1 Weimar</code>
+        <h3>Strategic</h3>
+      </div>
+      <div class="canon-cell yellow">
+        <code>§1.1 Weimar</code>
+        <h3>Advisory</h3>
+      </div>
+      <div class="canon-cell white">
+        <code>§1.5 Gugelot</code>
+        <h3>Stilte</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       TYPOGRAFISCHE SCHAAL
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>Typografie</h2>
+      <p>Inter Variable als Bayer-erfgenaam, modulaire schaal ratio 1.250 (major third). Mono voor pipeline-data, niet voor sfeer.</p>
+    </div>
+    <div class="type-scale">
+      <div class="type-row">
+        <code>display</code><code>49 / 56</code>
+        <span class="preview" style="font: var(--typo-display); letter-spacing: -0.03em;">Roosevelt OPS</span>
+      </div>
+      <div class="type-row">
+        <code>h1</code><code>39 / 48</code>
+        <span class="preview" style="font: var(--typo-h1); letter-spacing: -0.025em;">Adviesrapport F9</span>
+      </div>
+      <div class="type-row">
+        <code>h2</code><code>31 / 40</code>
+        <span class="preview" style="font: var(--typo-h2); letter-spacing: -0.02em;">Strategic-agent bevindingen</span>
+      </div>
+      <div class="type-row">
+        <code>h3</code><code>25 / 32</code>
+        <span class="preview" style="font: var(--typo-h3); letter-spacing: -0.015em;">Pipeline-status overzicht</span>
+      </div>
+      <div class="type-row">
+        <code>h4</code><code>20 / 28</code>
+        <span class="preview" style="font: var(--typo-h4);">Token-laag aanduiding</span>
+      </div>
+      <div class="type-row">
+        <code>body</code><code>16 / 24</code>
+        <span class="preview" style="font: var(--typo-body); max-width: 66ch;">Body-tekst is altijd 16px regular — Bauhaus-leesbaarheid boven densiteit. Bringhurst's regelbreedte 45 tot 65 karakters is hard maximum (max-width 66ch) voor long-form lezen.</span>
+      </div>
+      <div class="type-row">
+        <code>body-sm</code><code>14 / 20</code>
+        <span class="preview" style="font: var(--typo-body-sm); color: var(--text-secondary);">Secundair body — tabellen, annotaties, supportieve informatie.</span>
+      </div>
+      <div class="type-row">
+        <code>caption</code><code>12 / 16</code>
+        <span class="preview" style="font: var(--typo-caption); color: var(--text-tertiary);">Footnotes, micro-annotaties, timestamps.</span>
+      </div>
+      <div class="type-row">
+        <code>label</code><code>14 / 20</code>
+        <span class="preview" style="font: var(--typo-label); text-transform: uppercase; letter-spacing: 0.05em;">Strategic Agent</span>
+      </div>
+      <div class="type-row">
+        <code>data</code><code>16 / 24</code>
+        <span class="preview" style="font: var(--typo-data);">F4 · running · 12:04:38.221</span>
+      </div>
+      <div class="type-row">
+        <code>code</code><code>14 / 20</code>
+        <span class="preview" style="font: var(--typo-code);">semantic.color.agent.strategic → color.primary.blue.500</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       KLEUR — Weimar-semantiek
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>Kleur — Weimar-semantiek</h2>
+      <p>Drie primairen met vaste rol: blauw = strategic, rood = risk, geel = advisory. Hergebruik buiten rol is verboden.</p>
+    </div>
+
+    <h3 style="font: var(--typo-h4); margin-bottom: var(--space-4);">Layer 1 — Grondstoffen</h3>
+
+    <div style="margin-bottom: var(--space-6);">
+      <h4 style="font: var(--typo-label); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: var(--space-3);">Neutraal · Structuurpalet</h4>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-tile" style="background:#FFFFFF; border-color: var(--c-neutral-300);"></div><div class="swatch-meta"><strong>neutral.0</strong><span>#FFFFFF</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#FAFAFA;"></div><div class="swatch-meta"><strong>neutral.50</strong><span>#FAFAFA</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#F2F2F2;"></div><div class="swatch-meta"><strong>neutral.100</strong><span>#F2F2F2</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#E5E5E5;"></div><div class="swatch-meta"><strong>neutral.200</strong><span>#E5E5E5</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#D1D1D1;"></div><div class="swatch-meta"><strong>neutral.300</strong><span>#D1D1D1</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#A3A3A3;"></div><div class="swatch-meta"><strong>neutral.400</strong><span>#A3A3A3</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#737373;"></div><div class="swatch-meta"><strong>neutral.500</strong><span>#737373</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#525252;"></div><div class="swatch-meta"><strong>neutral.600</strong><span>#525252</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#404040;"></div><div class="swatch-meta"><strong>neutral.700</strong><span>#404040</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#262626;"></div><div class="swatch-meta"><strong>neutral.800</strong><span>#262626</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#171717;"></div><div class="swatch-meta"><strong>neutral.900</strong><span>#171717</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#0A0A0A;"></div><div class="swatch-meta"><strong>neutral.950</strong><span>#0A0A0A</span></div></div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: var(--space-6);">
+      <h4 style="font: var(--typo-label); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: var(--space-3);">Primair · Weimar-rollen</h4>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-tile" style="background:#1E4D8C;"></div><div class="swatch-meta"><strong>blue.500</strong><span>#1E4D8C — strategic</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#C8332B;"></div><div class="swatch-meta"><strong>red.500</strong><span>#C8332B — risk</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#E8B306;"></div><div class="swatch-meta"><strong>yellow.500</strong><span>#E8B306 — advisory</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#262626;"></div><div class="swatch-meta"><strong>neutral.800</strong><span>#262626 — technical</span></div></div>
+        <div class="swatch"><div class="swatch-tile" style="background:#1F7A3A;"></div><div class="swatch-meta"><strong>green.500</strong><span>#1F7A3A — completed</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       AGENT-ROLLEN
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>Agent-rollen</h2>
+      <p>Vier rollen, vier kleuren. Layer 2 semantic-tokens koppelen Kandinsky's vorm-kleur-systeem aan Roosevelt's pipeline-architectuur.</p>
+    </div>
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="agent-stripe" style="background: var(--agent-strategic);"></div>
+        <h4>Strategic</h4>
+        <p>Advies-fundament, strategische analyse. Kandinsky: cirkel — oneindig, geestelijk.</p>
+        <code>agent.strategic → blue.500</code>
+      </div>
+      <div class="agent-card">
+        <div class="agent-stripe" style="background: var(--agent-risk);"></div>
+        <h4>Risk</h4>
+        <p>Risico-signaal, escalatie. Kandinsky: vierkant — statisch, materieel.</p>
+        <code>agent.risk → red.500</code>
+      </div>
+      <div class="agent-card">
+        <div class="agent-stripe" style="background: var(--agent-advisory);"></div>
+        <h4>Advisory</h4>
+        <p>Review-attentie, human-in-the-loop. Kandinsky: driehoek — scherp, agressief.</p>
+        <code>agent.advisory → yellow.500</code>
+      </div>
+      <div class="agent-card">
+        <div class="agent-stripe" style="background: var(--agent-technical);"></div>
+        <h4>Technical</h4>
+        <p>Technische uitvoering, system-level. Neutraal donker — Mondriaan-zwartlijn.</p>
+        <code>agent.technical → neutral.800</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PIPELINE F0–F9
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>Pipeline F0–F9</h2>
+      <p>Layer 4 tokens. Visueel verloop van neutraal naar agent-rol-kleur — een volgordesignaal, geen decoratie.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step pipe-F0"><span class="pipe-code">F0</span><span class="pipe-label">Intake</span></div>
+      <div class="pipe-step pipe-F1"><span class="pipe-code">F1</span><span class="pipe-label">Collect</span></div>
+      <div class="pipe-step pipe-F2"><span class="pipe-code">F2</span><span class="pipe-label">Pre</span></div>
+      <div class="pipe-step pipe-F3"><span class="pipe-code">F3</span><span class="pipe-label">Strategic</span></div>
+      <div class="pipe-step pipe-F4 active"><span class="pipe-code">F4</span><span class="pipe-label">Core</span></div>
+      <div class="pipe-step pipe-F5"><span class="pipe-code">F5</span><span class="pipe-label">Depth</span></div>
+      <div class="pipe-step pipe-F6"><span class="pipe-code">F6</span><span class="pipe-label">Review</span></div>
+      <div class="pipe-step pipe-F7"><span class="pipe-code">F7</span><span class="pipe-label">Final</span></div>
+      <div class="pipe-step pipe-F8"><span class="pipe-code">F8</span><span class="pipe-label">Rapport</span></div>
+      <div class="pipe-step pipe-F9"><span class="pipe-code">F9</span><span class="pipe-label">Impact</span></div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STATUS-BADGES + KNOPPEN
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>Componenten</h2>
+      <p>Status-badges (vijf staten) en knoppen. Mondriaan-rechthoeken, scherpe hoeken, Bauhaus-rust.</p>
+    </div>
+
+    <h4 style="font: var(--typo-label); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: var(--space-3);">Status-badges</h4>
+    <div class="status-row" style="margin-bottom: var(--space-8);">
+      <span class="badge badge-idle"><span class="dot"></span>Idle</span>
+      <span class="badge badge-running"><span class="dot"></span>Running</span>
+      <span class="badge badge-approval"><span class="dot"></span>Approval</span>
+      <span class="badge badge-completed"><span class="dot"></span>Completed</span>
+      <span class="badge badge-error"><span class="dot"></span>Error</span>
+    </div>
+
+    <h4 style="font: var(--typo-label); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: var(--space-3);">Knoppen</h4>
+    <div class="btn-row">
+      <button class="btn btn-primary">Adviesrapport openen</button>
+      <button class="btn btn-secondary">Annuleren</button>
+      <button class="btn btn-destructive">Risico bevestigen</button>
+      <button class="btn btn-advisory">Review aanvragen</button>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ADVIESRAPPORT-PREVIEW
+       ============================================ -->
+  <section>
+    <div class="section-head">
+      <h2>Adviesrapport — agent-cards</h2>
+      <p>F9-output. Vier agent-rollen, één layout. Mondriaan-stripe links als rol-marker, body-tekst max 60ch (Bringhurst).</p>
+    </div>
+    <div class="report-grid">
+      <div class="report-card strategic">
+        <div class="report-card-stripe"></div>
+        <div>
+          <div class="role-label">Strategic Agent</div>
+          <h3>AI-readiness fundament</h3>
+          <p>De salesorganisatie heeft 67% van haar processen gedigitaliseerd, maar slechts 14% AI-gevalideerd. Aanbeveling: start met conversational-AI in F2 (lead-qualification).</p>
+          <div class="metrics">
+            <div><span class="metric-label">AI-score</span>67/100</div>
+            <div><span class="metric-label">Maturity</span>L2 / L4</div>
+            <div><span class="metric-label">Timeline</span>Q3 2026</div>
+          </div>
+        </div>
+      </div>
+      <div class="report-card risk">
+        <div class="report-card-stripe"></div>
+        <div>
+          <div class="role-label">Risk Agent</div>
+          <h3>GDPR-blootstelling in F4</h3>
+          <p>Persoonsdata-flow naar Claude Sonnet ontbeert Schrems-II-conforme processor-clausule. Blocker voor productie-deployment in EU-regio.</p>
+          <div class="metrics">
+            <div><span class="metric-label">Severity</span>High</div>
+            <div><span class="metric-label">Likelihood</span>Confirmed</div>
+            <div><span class="metric-label">SLA</span>14 dagen</div>
+          </div>
+        </div>
+      </div>
+      <div class="report-card advisory">
+        <div class="report-card-stripe"></div>
+        <div>
+          <div class="role-label">Advisory Agent</div>
+          <h3>Human-in-the-loop checkpoint</h3>
+          <p>F6-output vereist Toni van Dam's sales-DNA-validatie. Drie scenario's gegenereerd, één wijkt af van AI Sales Labs-methodologie.</p>
+          <div class="metrics">
+            <div><span class="metric-label">Scenario's</span>3</div>
+            <div><span class="metric-label">Match</span>2 / 3</div>
+            <div><span class="metric-label">Action</span>Review</div>
+          </div>
+        </div>
+      </div>
+      <div class="report-card technical">
+        <div class="report-card-stripe"></div>
+        <div>
+          <div class="role-label">Technical Agent</div>
+          <h3>Stack-readiness</h3>
+          <p>Next.js 14.2.35 + shadcn 4.1.0 voldoen aan ADR-013. pgvector-index voldoende voor F1 embedding-volumes (12k vectoren).</p>
+          <div class="metrics">
+            <div><span class="metric-label">Build</span>passing</div>
+            <div><span class="metric-label">Tests</span>25 / 25</div>
+            <div><span class="metric-label">Deploy</span>Hetzner</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RONDE 4 — GRID (De Stijl asymmetrisch 12-kol)
+       ============================================ -->
+  <section class="section" aria-labelledby="r4-grid">
+    <div class="eyebrow">Ronde 4 · Grid</div>
+    <h2 id="r4-grid">12 kolommen, asymmetrisch</h2>
+    <div class="grid-demo">
+      <div class="grid-cell grid-col-3">3 / sidebar</div>
+      <div class="grid-cell grid-col-9">9 / content</div>
+    </div>
+    <div class="grid-demo" style="margin-top: var(--space-3);">
+      <div class="grid-cell grid-col-2">2</div>
+      <div class="grid-cell grid-col-7">7 / asymmetrisch</div>
+      <div class="grid-cell grid-col-3">3</div>
+    </div>
+    <div class="grid-demo" style="margin-top: var(--space-3);">
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+      <div class="grid-cell grid-col-1">1</div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RONDE 4 — SPACING (4pt + 8pt-ankers)
+       ============================================ -->
+  <section class="section" aria-labelledby="r4-spacing">
+    <div class="eyebrow">Ronde 4 · Spacing</div>
+    <h2 id="r4-spacing">Schaal 0 → 96</h2>
+    <div class="spacing-demo">
+      <div class="spacing-row"><span class="spacing-label">0</span><div class="spacing-bar" style="width: 0;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">1px</span><div class="spacing-bar" style="width: 1px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">2</span><div class="spacing-bar" style="width: 2px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">4</span><div class="spacing-bar" style="width: 4px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">8</span><div class="spacing-bar" style="width: 8px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">12</span><div class="spacing-bar" style="width: 12px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">16</span><div class="spacing-bar" style="width: 16px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">24</span><div class="spacing-bar" style="width: 24px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">32</span><div class="spacing-bar" style="width: 32px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">48</span><div class="spacing-bar" style="width: 48px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">64</span><div class="spacing-bar" style="width: 64px;"></div></div>
+      <div class="spacing-row"><span class="spacing-label">96</span><div class="spacing-bar" style="width: 96px;"></div></div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RONDE 4 — RADIUS + BORDER + ELEVATION
+       ============================================ -->
+  <section class="section" aria-labelledby="r4-shape">
+    <div class="eyebrow">Ronde 4 · Shape</div>
+    <h2 id="r4-shape">Radius · Border · Elevation</h2>
+    <div class="shape-row">
+      <div class="shape-block" style="border-radius: 0;">
+        <div class="shape-tag">0px</div>
+        <div class="shape-meta">Cards · panels</div>
+      </div>
+      <div class="shape-block" style="border-radius: 2px;">
+        <div class="shape-tag">2px</div>
+        <div class="shape-meta">Buttons · inputs</div>
+      </div>
+      <div class="shape-block" style="border-radius: 4px;">
+        <div class="shape-tag">4px</div>
+        <div class="shape-meta">Dropdowns · tooltips</div>
+      </div>
+    </div>
+    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Border</h3>
+    <div class="shape-row">
+      <div class="shape-block" style="border: 1px solid var(--border-subtle);">
+        <div class="shape-tag">1px subtle</div>
+        <div class="shape-meta">Tabelrijen · inputs</div>
+      </div>
+      <div class="shape-block" style="border: 1px solid var(--border-default);">
+        <div class="shape-tag">1px default</div>
+        <div class="shape-meta">Card-omtrek</div>
+      </div>
+      <div class="shape-block" style="border: 2px solid var(--c-neutral-950);">
+        <div class="shape-tag">2px emphasis</div>
+        <div class="shape-meta">Mondriaan-scheider</div>
+      </div>
+    </div>
+    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Elevation</h3>
+    <div class="shape-row">
+      <div class="shape-block" style="box-shadow: var(--elevation-none); border: 1px solid var(--border-subtle);">
+        <div class="shape-tag">none</div>
+        <div class="shape-meta">Standaard rust</div>
+      </div>
+      <div class="shape-block" style="box-shadow: var(--elevation-subtle); border: 1px solid var(--border-subtle);">
+        <div class="shape-tag">subtle</div>
+        <div class="shape-meta">Sticky · hover</div>
+      </div>
+      <div class="shape-block" style="box-shadow: var(--elevation-raised); border: 1px solid var(--border-subtle);">
+        <div class="shape-tag">raised</div>
+        <div class="shape-meta">Modal · dropdown</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RONDE 4 — MOTION + FOCUS
+       ============================================ -->
+  <section class="section" aria-labelledby="r4-motion">
+    <div class="eyebrow">Ronde 4 · Motion &amp; Focus</div>
+    <h2 id="r4-motion">Duration · Easing · Focus</h2>
+    <div class="motion-grid">
+      <div class="motion-card" style="--d: 0ms;">
+        <div class="motion-token">instant</div>
+        <div class="motion-value">0ms</div>
+        <div class="motion-bar"><div class="motion-fill" style="animation-duration: 0ms;"></div></div>
+      </div>
+      <div class="motion-card" style="--d: 120ms;">
+        <div class="motion-token">fast</div>
+        <div class="motion-value">120ms · hover</div>
+        <div class="motion-bar"><div class="motion-fill" style="animation-duration: 1200ms;"></div></div>
+      </div>
+      <div class="motion-card" style="--d: 200ms;">
+        <div class="motion-token">normal</div>
+        <div class="motion-value">200ms · state</div>
+        <div class="motion-bar"><div class="motion-fill" style="animation-duration: 2000ms;"></div></div>
+      </div>
+      <div class="motion-card" style="--d: 320ms;">
+        <div class="motion-token">slow</div>
+        <div class="motion-value">320ms · panel</div>
+        <div class="motion-bar"><div class="motion-fill" style="animation-duration: 3200ms;"></div></div>
+      </div>
+      <div class="motion-card" style="--d: 480ms;">
+        <div class="motion-token">deliberate</div>
+        <div class="motion-value">480ms · modal</div>
+        <div class="motion-bar"><div class="motion-fill" style="animation-duration: 4800ms;"></div></div>
+      </div>
+    </div>
+    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Focus indicator</h3>
+    <div class="focus-row">
+      <button class="btn btn-primary focus-demo" type="button">Tab hierheen</button>
+      <button class="btn btn-secondary focus-demo" type="button">Tab</button>
+      <input class="focus-demo-input" placeholder="Focus mij" />
+      <a href="#r4-motion" class="focus-demo-link">Tekstlink</a>
+    </div>
+    <p class="motion-note">2px blue · 2px offset · alleen op <code>:focus-visible</code></p>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer>
+    <div>
+      <p style="margin-bottom: var(--space-2);">Roosevelt OPS Headless Design System — Prototype v0.4</p>
+      <p>Auteur: Sam Swaab · 14 mei 2026 · Concept &amp; Design fase</p>
+      <p style="margin-top: var(--space-2);">Ronde 1–4 ✓ · Targetpublicatie ICIS 2026 Lissabon · DSR (Hevner 2004, Peffers 2007)</p>
+    </div>
+    <div>
+      <p style="margin-bottom: var(--space-2);">Bronnen</p>
+      <p><code>bauhaus-canon.md</code> · <code>tokens.json</code></p>
+      <p><code>mission.md</code> · <code>colour.md</code> · <code>typography.md</code></p>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

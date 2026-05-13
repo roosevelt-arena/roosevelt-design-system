@@ -1,0 +1,11 @@
+# Global owner
+* @hansbeeksma
+
+# Canon mag alleen Sam wijzigen
+/docs/canon/ @hansbeeksma
+
+# ADR's vereisen owner-approval
+/docs/adr/ @hansbeeksma
+
+# Workflows
+/.github/ @hansbeeksma
