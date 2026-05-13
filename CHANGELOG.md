@@ -2,6 +2,17 @@
 
 Volgens [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · SemVer 2.0.
 
+## [0.5.0] — 2026-05-14
+
+### Added
+- **Ronde 5** — Iconography + Pictograms (Aicher-onderzoek + Vorkurs-geometrie).
+- Iconenset: Lucide (Apache 2.0), 24px canvas, 1.5px stroke, square caps, miter joins.
+- DTCG tokens: `dimension.icon.*` (canvas/stroke/padding), `icon.stroke.{cap,join}`, `semantic.color.icon.*`, `agent.{strategic,risk,advisory,technical}.{shape,color}`, `pipeline.emblem.*` (28 nieuwe leaf-tokens, totaal 214).
+- Agent-pictogrammen: Kandinsky/Itten geometrie-mapping (○ Strategic, ◪ Risk, △ Advisory, ▬ Technical).
+- F0-F9 pipeline-emblemen: hybride aanpak — cijfer + cluster-kleur (neutral.500 diagnostiek, blue.500 synthese).
+- Foundation: `docs/foundations/_product/iconography.md`.
+- Canon-onderzoek: `docs/canon/aicher-research-ronde5.md` (Aicher München '72, ISOTYPE, Vorkurs).
+
 ## [0.4.0] — 2026-05-14
 
 ### Added

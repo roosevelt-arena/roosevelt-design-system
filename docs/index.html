@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Roosevelt OPS — Headless Design System Prototype v0.4</title>
+<title>Roosevelt OPS — Headless Design System Prototype v0.5</title>
 <link rel="preconnect" href="https://rsms.me/">
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css">
@@ -639,6 +639,149 @@
   }
 
   /* ============================================
+     Ronde 5 — Iconography (Aicher + Lucide-override)
+     ============================================ */
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+  .icon-card {
+    border: 1px solid var(--border-subtle);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .icon-canvas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-canvas-24 { width: 24px; height: 24px; }
+  .icon-canvas-32 { width: 32px; height: 32px; }
+  .icon-canvas-48 { width: 48px; height: 48px; }
+  .lucide-roosevelt {
+    stroke: var(--c-neutral-900);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+    fill: none;
+  }
+  .lucide-roosevelt * {
+    vector-effect: non-scaling-stroke;
+  }
+  .icon-token {
+    font: var(--typo-label);
+    color: var(--text-primary);
+  }
+  .icon-meta {
+    font: var(--typo-caption);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  @media (max-width: 880px) {
+    .icon-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Agent-pictogrammen (Itten/Kandinsky Vorkurs) */
+  .agent-pictogram-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+  }
+  .agent-picto-card {
+    border: 1px solid var(--border-subtle);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: center;
+  }
+  .agent-picto-svg {
+    width: 48px;
+    height: 48px;
+    display: block;
+  }
+  .agent-picto-name {
+    font: var(--typo-label);
+    color: var(--text-primary);
+  }
+  .agent-picto-quote {
+    font: 400 12px/18px var(--font-sans);
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 24ch;
+  }
+  @media (max-width: 880px) {
+    .agent-pictogram-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* F0–F9 emblem-strip */
+  .emblem-strip {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+  .emblem {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 500 12px/1 var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    background: var(--c-neutral-0);
+  }
+  .emblem.diagnostic {
+    border: 1.5px solid var(--c-neutral-500);
+    color: var(--c-neutral-700);
+  }
+  .emblem.synthesis {
+    border: 1.5px solid var(--c-blue-500);
+    color: var(--c-blue-700);
+  }
+  .emblem-legend {
+    display: flex;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
+    font: var(--typo-caption);
+    color: var(--text-secondary);
+  }
+  .emblem-legend-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    margin-right: var(--space-2);
+    vertical-align: middle;
+  }
+
+  /* Duotone hybride (Strategic in F3) */
+  .duotone-demo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+    padding: var(--space-6);
+    border: 1px solid var(--border-subtle);
+  }
+  .duotone-svg { width: 96px; height: 96px; }
+  .duotone-meta {
+    font: var(--typo-body-sm);
+    color: var(--text-secondary);
+    max-width: 40ch;
+  }
+
+  /* ============================================
      Ronde 4 — Focus demo
      ============================================ */
   .focus-row {
@@ -1114,13 +1257,140 @@
   </section>
 
   <!-- ============================================
+       RONDE 5 — ICONOGRAPHY (Lucide-override)
+       ============================================ -->
+  <section class="section" aria-labelledby="r5-icons">
+    <div class="eyebrow">Ronde 5 · Iconography</div>
+    <h2 id="r5-icons">Lucide — Roosevelt-gecustomized</h2>
+    <p style="font: var(--typo-body-sm); color: var(--text-secondary); margin-top: var(--space-2); max-width: 60ch;">
+      1.5px stroke · square caps · miter joins · 24px primair, 16px micro. Geen 2px round (Lucide default).
+    </p>
+    <div class="icon-grid">
+      <!-- ChevronRight @ 24 -->
+      <div class="icon-card">
+        <div class="icon-canvas icon-canvas-24">
+          <svg class="lucide-roosevelt" viewBox="0 0 24 24" width="24" height="24"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+        <div class="icon-token">chevron-right</div>
+        <div class="icon-meta">24px · 1.5</div>
+      </div>
+      <!-- Check @ 24 -->
+      <div class="icon-card">
+        <div class="icon-canvas icon-canvas-24">
+          <svg class="lucide-roosevelt" viewBox="0 0 24 24" width="24" height="24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="icon-token">check</div>
+        <div class="icon-meta">24px · 1.5</div>
+      </div>
+      <!-- AlertTriangle @ 24 -->
+      <div class="icon-card">
+        <div class="icon-canvas icon-canvas-24">
+          <svg class="lucide-roosevelt" viewBox="0 0 24 24" width="24" height="24"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="icon-token">alert-triangle</div>
+        <div class="icon-meta">24px · 1.5</div>
+      </div>
+      <!-- Settings @ 24 -->
+      <div class="icon-card">
+        <div class="icon-canvas icon-canvas-24">
+          <svg class="lucide-roosevelt" viewBox="0 0 24 24" width="24" height="24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="icon-token">settings</div>
+        <div class="icon-meta">24px · 1.5</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RONDE 5 — AGENT PICTOGRAMMEN (Itten/Kandinsky)
+       ============================================ -->
+  <section class="section" aria-labelledby="r5-agents">
+    <div class="eyebrow">Ronde 5 · Agent-pictogrammen</div>
+    <h2 id="r5-agents">Vorkurs-geometrie per rol</h2>
+    <p style="font: var(--typo-body-sm); color: var(--text-secondary); margin-top: var(--space-2); max-width: 60ch;">
+      Kandinsky's kleur-vorm-matrix: cirkel (oneindig), driehoek (intellect), vierkant (materialiteit), rechthoek (structuur).
+    </p>
+    <div class="agent-pictogram-row">
+      <!-- Strategic = cirkel -->
+      <div class="agent-picto-card">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="18" fill="none" stroke="#1E4D8C" stroke-width="3"/>
+        </svg>
+        <div class="agent-picto-name" style="color: var(--c-blue-500);">Strategic</div>
+        <div class="agent-picto-quote">“continually moving, eternally rotating” — Itten</div>
+      </div>
+      <!-- Risk = vierkant + diagonaal -->
+      <div class="agent-picto-card">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48">
+          <rect x="8" y="8" width="32" height="32" fill="none" stroke="#C8332B" stroke-width="3"/>
+          <line x1="8" y1="8" x2="40" y2="40" stroke="#C8332B" stroke-width="3"/>
+        </svg>
+        <div class="agent-picto-name" style="color: var(--c-red-500);">Risk</div>
+        <div class="agent-picto-quote">“intensive inner seething” — Kandinsky</div>
+      </div>
+      <!-- Advisory = driehoek met radius -->
+      <div class="agent-picto-card">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48">
+          <path d="M24 7 L41 39 L7 39 Z" fill="none" stroke="#E8B306" stroke-width="3" stroke-linejoin="round"/>
+        </svg>
+        <div class="agent-picto-name" style="color: var(--c-yellow-600);">Advisory</div>
+        <div class="agent-picto-quote">Driehoek = intellectuele energie + human touch</div>
+      </div>
+      <!-- Technical = rechthoek -->
+      <div class="agent-picto-card">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48">
+          <rect x="6" y="15" width="36" height="18" fill="none" stroke="#262626" stroke-width="3"/>
+        </svg>
+        <div class="agent-picto-name">Technical</div>
+        <div class="agent-picto-quote">Aicher-grid — pure structuurlogica</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       RONDE 5 — F0–F9 EMBLEM-STRIP
+       ============================================ -->
+  <section class="section" aria-labelledby="r5-emblem">
+    <div class="eyebrow">Ronde 5 · F0–F9 emblem</div>
+    <h2 id="r5-emblem">Cijfer-in-cirkel · cluster-codering</h2>
+    <div class="emblem-strip">
+      <div class="emblem diagnostic">F0</div>
+      <div class="emblem diagnostic">F1</div>
+      <div class="emblem diagnostic">F2</div>
+      <div class="emblem diagnostic">F3</div>
+      <div class="emblem diagnostic">F4</div>
+      <div class="emblem synthesis">F5</div>
+      <div class="emblem synthesis">F6</div>
+      <div class="emblem synthesis">F7</div>
+      <div class="emblem synthesis">F8</div>
+      <div class="emblem synthesis">F9</div>
+    </div>
+    <div class="emblem-legend">
+      <span><span class="emblem-legend-swatch" style="color: var(--c-neutral-500);"></span>F0–F4 diagnostiek</span>
+      <span><span class="emblem-legend-swatch" style="color: var(--c-blue-500);"></span>F5–F9 synthese</span>
+    </div>
+
+    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Duotone-hybride — agent × fase</h3>
+    <div class="duotone-demo">
+      <svg class="duotone-svg" viewBox="0 0 96 96">
+        <circle cx="48" cy="48" r="40" fill="#A3A3A3" fill-opacity="0.2"/>
+        <circle cx="48" cy="48" r="40" fill="none" stroke="#1E4D8C" stroke-width="3"/>
+        <text x="48" y="56" font-family="Geist Mono, ui-monospace, monospace" font-size="28" font-weight="500" fill="#102C54" text-anchor="middle">F3</text>
+      </svg>
+      <div class="duotone-meta">
+        Strategic Agent in fase F3. Cirkel-outline (blauw) draagt agent-rol; gevulde grijze laag draagt fase-cluster (F0–F4 diagnostiek). Twee informatielagen, één pictogram — Aicher's configureerbare syntaxis, digitaal vertaald.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        FOOTER
        ============================================ -->
   <footer>
     <div>
-      <p style="margin-bottom: var(--space-2);">Roosevelt OPS Headless Design System — Prototype v0.4</p>
+      <p style="margin-bottom: var(--space-2);">Roosevelt OPS Headless Design System — Prototype v0.5</p>
       <p>Auteur: Sam Swaab · 14 mei 2026 · Concept &amp; Design fase</p>
-      <p style="margin-top: var(--space-2);">Ronde 1–4 ✓ · Targetpublicatie ICIS 2026 Lissabon · DSR (Hevner 2004, Peffers 2007)</p>
+      <p style="margin-top: var(--space-2);">Ronde 1–5 ✓ · Targetpublicatie ICIS 2026 Lissabon · DSR (Hevner 2004, Peffers 2007)</p>
     </div>
     <div>
       <p style="margin-bottom: var(--space-2);">Bronnen</p>
