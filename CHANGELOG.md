@@ -2,6 +2,15 @@
 
 Volgens [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · SemVer 2.0.
 
+## [0.8.2] — 2026-05-14
+
+### Removed
+- **Ronde 6 (Logo) volledig uit prototype verwijderd** — sectie + sidebar-link. Logo-systeem blijft alleen als bron-documentatie in `docs/foundations/_product/logo.md` (indien aanwezig).
+- SVG-monogram in manifest-header vervangen door pure typografische `manifest-wordmark` (Inter 800 clamp 32–56px + Geist Mono 500 clamp 14–18px).
+
+### Changed
+- Bauhaus-strict: nul logo-decoratie in het prototype zelf. Wordmark = typografie, niet illustratie.
+
 ## [0.8.1] — 2026-05-14
 
 ### Added

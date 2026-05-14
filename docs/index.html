@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Roosevelt OPS — Headless Design System Prototype v0.8.1</title>
+<title>Roosevelt OPS — Headless Design System Prototype v0.8.2</title>
 <link rel="preconnect" href="https://rsms.me/">
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css">
@@ -815,6 +815,24 @@
   /* ============================================
      Ronde 6 — Logo system
      ============================================ */
+  .manifest-wordmark {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+  .manifest-wordmark-name {
+    font: 800 clamp(32px, 6vw, 56px)/1 var(--font-sans, Inter, sans-serif);
+    letter-spacing: 0.06em;
+    color: #0a0a0a;
+    font-variation-settings: 'opsz' 32, 'wght' 800;
+  }
+  .manifest-wordmark-suffix {
+    font: 500 clamp(14px, 2vw, 18px)/1 var(--font-mono, "Geist Mono", monospace);
+    letter-spacing: 0.08em;
+    color: #525252;
+  }
+
   .logo-header {
     margin-bottom: var(--space-6);
   }
@@ -962,7 +980,7 @@
   }
 
   /* ============================================
-     v0.8.1 — Bauhaus copy-cleanup + Apple HIG responsive foundations
+     v0.8.2 — Ronde 6 verwijderd + manifest-wordmark
      ============================================ */
 
   /* Skip link */
@@ -1327,7 +1345,7 @@
       <li><a href="#footer" class="topbar-link">Resources</a></li>
     </ul>
     <div class="topbar-meta">
-      <span class="topbar-chip"><span class="chip-dot"></span>v0.8.1</span>
+      <span class="topbar-chip"><span class="chip-dot"></span>v0.8.2</span>
       <button class="topbar-toggle" id="nav-toggle" aria-expanded="false" aria-controls="sidebar-nav" aria-label="Navigatie openen">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
           <rect x="2" y="4" width="16" height="1.5" fill="currentColor"/>
@@ -1362,7 +1380,6 @@
         <li><a href="#sec-r3-report" class="sidebar-link" data-target="sec-r3-report">Adviesrapport</a></li>
         <li><a href="#sec-r4" class="sidebar-link" data-target="sec-r4">Grid &amp; spacing</a></li>
         <li><a href="#sec-r5" class="sidebar-link" data-target="sec-r5">Iconography</a></li>
-        <li><a href="#sec-r6" class="sidebar-link" data-target="sec-r6">Logo</a></li>
         <li><a href="#sec-r7" class="sidebar-link" data-target="sec-r7">Editorial foundations</a></li>
         <li><a href="#sec-r8" class="sidebar-link" data-target="sec-r8">Responsive (Apple HIG)</a></li>
       </ul>
@@ -1381,25 +1398,8 @@
        MANIFEST HEADER
        ============================================ -->
   <header>
-    <div class="logo-header" aria-label="Roosevelt OPS logo">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 96" role="img" aria-label="Roosevelt OPS">
-        <style>
-          .wm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
-                font-weight: 800; font-size: 56px; letter-spacing: 0.06em;
-                fill: #0a0a0a; font-variation-settings: 'opsz' 32, 'wght' 800; }
-          .ops { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
-                 font-weight: 500; font-size: 18px; letter-spacing: 0.08em; fill: #525252; }
-        </style>
-        <g transform="translate(16, 16)">
-          <g transform="scale(0.875)" fill="#0a0a0a">
-            <rect x="0" y="0" width="16" height="64"/>
-            <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
-            <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
-          </g>
-        </g>
-        <text x="96" y="66" class="wm">ROOSEVELT</text>
-        <text x="488" y="66" class="ops">OPS</text>
-      </svg>
+    <div class="manifest-wordmark" aria-label="Roosevelt OPS">
+      <span class="manifest-wordmark-name">ROOSEVELT</span><span class="manifest-wordmark-suffix">OPS</span>
     </div>
     <div class="manifest-eyebrow">Headless Design System</div>
     <h1 class="manifest-title">Een Bauhaus-canon voor operationele uitmuntendheid.</h1>
@@ -1958,201 +1958,6 @@
     </div>
   </section>
 
-  <!-- ============================================
-       RONDE 6 — LOGO
-       ============================================ -->
-  <section class="section" id="sec-r6" aria-labelledby="r6-logo">
-    <div class="eyebrow">Ronde 6 · Logo</div>
-    <h2 id="r6-logo">Bauhaus-strict woordmerk &amp; monogram</h2>
-
-    <div class="logo-grid">
-      <div class="logo-card">
-        <div class="logo-canvas">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Roosevelt monogram">
-            <title>Roosevelt monogram</title>
-            <g fill="#0a0a0a">
-              <rect x="0" y="0" width="16" height="64"/>
-              <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
-              <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
-            </g>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Monogram</div>
-          <div class="logo-meta">8×8 raster · zwart #0a0a0a · min 16px</div>
-        </div>
-      </div>
-
-      <div class="logo-card inverse">
-        <div class="logo-canvas">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Roosevelt monogram inverse">
-            <title>Roosevelt monogram inverse</title>
-            <rect x="0" y="0" width="64" height="64" fill="#0a0a0a"/>
-            <g fill="#ffffff">
-              <rect x="0" y="0" width="16" height="64"/>
-              <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
-              <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
-            </g>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Monogram inverse</div>
-          <div class="logo-meta">Wit op zwart · voor donkere achtergronden</div>
-        </div>
-      </div>
-
-      <div class="logo-card">
-        <div class="logo-canvas">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Roosevelt favicon" class="favicon-svg">
-            <rect width="32" height="32" fill="#0a0a0a"/>
-            <g fill="#ffffff" transform="translate(6, 4)">
-              <rect x="0" y="0" width="6" height="24"/>
-              <path d="M 6 0 A 12 12 0 0 1 6 12 L 6 6 A 6 6 0 0 0 6 0 Z"/>
-              <path d="M 6 12 L 12 12 L 24 24 L 18 24 Z"/>
-            </g>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Favicon</div>
-          <div class="logo-meta">32×32 · pixel-snapped · monogram-only</div>
-        </div>
-      </div>
-
-      <div class="logo-card" style="grid-column: span 3;">
-        <div class="logo-canvas" style="min-height: 80px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 64" role="img" aria-label="Roosevelt">
-            <style>
-              .r6-wm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
-                       font-weight: 800; font-size: 56px; letter-spacing: 0.06em;
-                       fill: #0a0a0a; font-variation-settings: 'opsz' 32, 'wght' 800; }
-            </style>
-            <text x="0" y="50" class="r6-wm">ROOSEVELT</text>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Woordmerk</div>
-          <div class="logo-meta">Inter Variable · wght 800 · opsz 32 · tracking 0.06em · uppercase</div>
-        </div>
-      </div>
-
-      <div class="logo-card" style="grid-column: span 2;">
-        <div class="logo-canvas" style="min-height: 96px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 96" role="img" aria-label="Roosevelt OPS">
-            <style>
-              .r6-hwm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
-                        font-weight: 800; font-size: 56px; letter-spacing: 0.06em;
-                        fill: #0a0a0a; font-variation-settings: 'opsz' 32, 'wght' 800; }
-              .r6-hops { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
-                         font-weight: 500; font-size: 18px; letter-spacing: 0.08em; fill: #525252; }
-            </style>
-            <g transform="translate(16, 16)">
-              <g transform="scale(0.875)" fill="#0a0a0a">
-                <rect x="0" y="0" width="16" height="64"/>
-                <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
-                <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
-              </g>
-            </g>
-            <text x="96" y="66" class="r6-hwm">ROOSEVELT</text>
-            <text x="488" y="66" class="r6-hops">OPS</text>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Lockup horizontaal</div>
-          <div class="logo-meta">Header, presentaties, rapport-cover · monogram + woordmerk + OPS</div>
-        </div>
-      </div>
-
-      <div class="logo-card">
-        <div class="logo-canvas" style="min-height: 160px;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Roosevelt OPS" style="max-height: 160px;">
-            <style>
-              .r6-vwm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
-                        font-weight: 800; font-size: 36px; letter-spacing: 0.06em;
-                        fill: #0a0a0a; text-anchor: middle;
-                        font-variation-settings: 'opsz' 32, 'wght' 800; }
-              .r6-vops { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
-                         font-weight: 500; font-size: 13px; letter-spacing: 0.08em;
-                         fill: #525252; text-anchor: middle; }
-            </style>
-            <g transform="translate(128, 16)" fill="#0a0a0a">
-              <rect x="0" y="0" width="16" height="64"/>
-              <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
-              <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
-            </g>
-            <text x="160" y="130" class="r6-vwm">ROOSEVELT</text>
-            <text x="160" y="156" class="r6-vops">OPS</text>
-          </svg>
-        </div>
-        <div>
-          <div class="logo-name">Lockup verticaal</div>
-          <div class="logo-meta">Avatars, business cards, smalle contexten</div>
-        </div>
-      </div>
-    </div>
-
-    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Tokens · logo</h3>
-    <table class="logo-spec-table">
-      <thead>
-        <tr><th>Token</th><th>Waarde</th><th>Toepassing</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>logo.wordmark.font</code></td><td>Inter Variable</td><td>Woordmerk ROOSEVELT — Bayer-erfgenaam</td></tr>
-        <tr><td><code>logo.wordmark.weight</code></td><td>800</td><td>ExtraBold, architecturale aanwezigheid</td></tr>
-        <tr><td><code>logo.wordmark.opsz</code></td><td>32</td><td>Display optical size</td></tr>
-        <tr><td><code>logo.wordmark.case</code></td><td>uppercase</td><td>All-caps verplicht — Heineken-gevel-principe</td></tr>
-        <tr><td><code>logo.wordmark.tracking</code></td><td>0.06em</td><td>Letter-spacing</td></tr>
-        <tr><td><code>logo.wordmark.color</code></td><td><code>#0a0a0a</code></td><td>Primair op licht</td></tr>
-        <tr><td><code>logo.wordmark.color.inverse</code></td><td><code>#ffffff</code></td><td>Op donkere achtergrond</td></tr>
-        <tr><td><code>logo.tagline.font</code></td><td>Geist Mono</td><td>OPS en sub-labels</td></tr>
-        <tr><td><code>logo.tagline.color</code></td><td><code>#525252</code></td><td>Hiërarchie onder woordmerk</td></tr>
-        <tr><td><code>logo.monogram.grid</code></td><td>8×8 (1u = 8px)</td><td>Eenheden-raster op 64px canvas</td></tr>
-        <tr><td><code>logo.monogram.stem.width</code></td><td>2u (16px)</td><td>Stam-dikte</td></tr>
-        <tr><td><code>logo.monogram.bowl.outer</code></td><td>4u (32px)</td><td>Buitenradius bowl</td></tr>
-        <tr><td><code>logo.monogram.bowl.inner</code></td><td>2u (16px)</td><td>Binnenradius = stam-breedte</td></tr>
-        <tr><td><code>logo.monogram.leg.angle</code></td><td>45°</td><td>Diagonaal exact 1:1, geen optische correctie</td></tr>
-        <tr><td><code>logo.clearspace</code></td><td>1 cap-height</td><td>Beschermzone rondom</td></tr>
-        <tr><td><code>logo.size.min.digital</code></td><td>24px</td><td>Minimaal woordmerk — 16px monogram (favicon)</td></tr>
-        <tr><td><code>logo.size.min.print</code></td><td>20mm</td><td>Drukwerk-minimum</td></tr>
-      </tbody>
-    </table>
-
-    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Accessibility</h3>
-    <table class="logo-spec-table">
-      <thead>
-        <tr><th>Combinatie</th><th>Ratio</th><th>WCAG</th><th>APCA Lc</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>#0a0a0a</code> op <code>#ffffff</code></td><td>20.4:1</td><td>AAA</td><td>106</td></tr>
-        <tr><td><code>#ffffff</code> op <code>#0a0a0a</code></td><td>20.4:1</td><td>AAA</td><td>108</td></tr>
-        <tr><td><code>#525252</code> op <code>#ffffff</code> (tagline)</td><td>7.5:1</td><td>AAA Large · AA Body</td><td>75</td></tr>
-      </tbody>
-    </table>
-
-    <div class="do-dont-grid">
-      <div class="do-dont-col do">
-        <h4>Do</h4>
-        <ul>
-          <li>Plaats logo op rustig wit/zwart vlak</li>
-          <li>Behoud 1 cap-height clearspace</li>
-          <li>Gebruik officiële SVG-bestanden</li>
-          <li>Zwart op licht, wit op donker</li>
-          <li>Combineer met Inter Variable in body</li>
-          <li>Behoud all-caps en tracking 0.06em</li>
-        </ul>
-      </div>
-      <div class="do-dont-col dont">
-        <h4>Don't</h4>
-        <ul>
-          <li>Geen foto's, gradients of textuur als achtergrond</li>
-          <li>Geen schaduw, glow, gradient of 3D-effect</li>
-          <li>Geen goud, brons of koper (anti-canon)</li>
-          <li>Niet stretchen, scheef trekken of roteren</li>
-          <li>Geen serif of decoratieve display-font</li>
-          <li>Niet onder 24px digitaal of 20mm print</li>
-        </ul>
-      </div>
-    </div>
-  </section>
 
   <!-- ============================================
        Ronde 7 — Editorial Foundations
