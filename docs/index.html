@@ -2,8 +2,8 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Roosevelt OPS — Headless Design System Prototype v0.5</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Roosevelt OPS — Headless Design System Prototype v0.8.1</title>
 <link rel="preconnect" href="https://rsms.me/">
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.css">
@@ -95,6 +95,21 @@
     --space-1:  4px;   --space-2:  8px;   --space-3:  12px;  --space-4:  16px;
     --space-5:  20px;  --space-6:  24px;  --space-8:  32px;  --space-10: 40px;
     --space-12: 48px;  --space-16: 64px;  --space-20: 80px;  --space-24: 96px;
+
+    /* Responsive breakpoints (Apple HIG size classes — Ronde 8) */
+    --bp-compact:    640px;
+    --bp-regular-sm: 1024px;
+    --bp-regular-md: 1280px;
+
+    /* Touch targets (Apple HIG — Ronde 8) */
+    --touch-min:         44px;
+    --touch-comfortable: 48px;
+
+    /* Safe areas (Apple HIG — notch + landscape iPhone) */
+    --safe-top:    env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left:   env(safe-area-inset-left, 0px);
+    --safe-right:  env(safe-area-inset-right, 0px);
 
     /* Radius (De Stijl §1.3) */
     --radius-none: 0px;
@@ -703,15 +718,28 @@
     align-items: center;
     gap: var(--space-3);
     text-align: center;
+    /* currentColor pattern — SVG stroke inherits from parent */
+    color: var(--agent-technical);
   }
+  .agent-picto-card.strategic { color: var(--agent-strategic); }
+  .agent-picto-card.risk      { color: var(--agent-risk); }
+  .agent-picto-card.advisory  { color: var(--agent-advisory); }
+  .agent-picto-card.technical { color: var(--agent-technical); }
   .agent-picto-svg {
     width: 48px;
     height: 48px;
     display: block;
+    stroke: currentColor;
+    fill: none;
   }
   .agent-picto-name {
     font: var(--typo-label);
-    color: var(--text-primary);
+    color: var(--text-primary); /* canon §4 — body text nooit op kleur-token < 4.5:1 */
+  }
+  /* Advisory cue: gele underline (2px) i.p.v. tekstkleur die niet voldoet aan WCAG */
+  .agent-picto-card.advisory .agent-picto-name {
+    padding-bottom: var(--space-1);
+    border-bottom: 2px solid var(--agent-advisory);
   }
   .agent-picto-quote {
     font: 400 12px/18px var(--font-sans);
@@ -775,10 +803,136 @@
     border: 1px solid var(--border-subtle);
   }
   .duotone-svg { width: 96px; height: 96px; }
+  .duotone-svg .layer-phase { fill: var(--c-neutral-400); fill-opacity: 0.2; }
+  .duotone-svg .layer-agent { stroke: var(--agent-strategic); fill: none; }
+  .duotone-svg .layer-digit { fill: var(--c-blue-700); font-family: var(--font-mono); }
   .duotone-meta {
     font: var(--typo-body-sm);
     color: var(--text-secondary);
     max-width: 40ch;
+  }
+
+  /* ============================================
+     Ronde 6 — Logo system
+     ============================================ */
+  .logo-header {
+    margin-bottom: var(--space-6);
+  }
+  .logo-header svg { display: block; height: 56px; width: auto; max-width: 100%; }
+
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  @media (max-width: 720px) {
+    .logo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .logo-card {
+    border: 1px solid var(--border-subtle);
+    padding: var(--space-6);
+    background: var(--c-neutral-0);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .logo-card.inverse { background: #0a0a0a; }
+  .logo-card .logo-canvas {
+    flex: 1;
+    min-height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-card .logo-canvas svg { max-width: 100%; max-height: 96px; height: auto; }
+  .logo-card .logo-canvas svg.favicon-svg { width: 64px; height: 64px; max-height: 64px; }
+  .logo-card .logo-meta {
+    font: var(--typo-body-sm);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-subtle);
+    padding-top: var(--space-3);
+  }
+  .logo-card.inverse .logo-meta {
+    color: var(--c-neutral-300);
+    border-top-color: var(--c-neutral-700, #404040);
+  }
+  .logo-card .logo-name {
+    font: var(--typo-label);
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .logo-card.inverse .logo-name { color: var(--c-neutral-0); }
+
+  .logo-spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-6);
+    font: var(--typo-body-sm);
+  }
+  .logo-spec-table th,
+  .logo-spec-table td {
+    text-align: left;
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+  .logo-spec-table th {
+    font: var(--typo-label);
+    color: var(--text-primary);
+    background: var(--c-neutral-50);
+  }
+  .logo-spec-table td code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--text-primary);
+  }
+
+  .do-dont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  @media (max-width: 720px) { .do-dont-grid { grid-template-columns: 1fr; } }
+  .do-dont-col {
+    border: 1px solid var(--border-subtle);
+    padding: var(--space-5);
+  }
+  .do-dont-col h4 {
+    font: var(--typo-label);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-3);
+  }
+  .do-dont-col.do h4 { color: var(--c-blue-500); }
+  .do-dont-col.dont h4 { color: var(--c-red-500); }
+  .do-dont-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .do-dont-col li {
+    font: var(--typo-body-sm);
+    color: var(--text-secondary);
+    padding-left: var(--space-4);
+    position: relative;
+  }
+  .do-dont-col.do li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--c-blue-500);
+  }
+  .do-dont-col.dont li::before {
+    content: "×";
+    position: absolute;
+    left: 0;
+    color: var(--c-red-500);
   }
 
   /* ============================================
@@ -806,34 +960,458 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+
+  /* ============================================
+     v0.8.1 — Bauhaus copy-cleanup + Apple HIG responsive foundations
+     ============================================ */
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--space-4);
+    background: #0a0a0a;
+    color: #fff;
+    padding: var(--space-3) var(--space-4);
+    text-decoration: none;
+    font: var(--typo-label);
+    z-index: 1000;
+    border: 2px solid #0a0a0a;
+  }
+  .skip-link:focus {
+    top: var(--space-3);
+    outline: 2px solid var(--c-yellow-500);
+    outline-offset: 2px;
+  }
+
+  /* Topbar */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: var(--border-1) solid var(--border-default);
+    backdrop-filter: saturate(180%) blur(8px);
+  }
+  .topbar-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+  .topbar-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    text-decoration: none;
+    color: var(--c-neutral-1000, #0a0a0a);
+    padding: var(--space-2) 0;
+    min-height: var(--touch-min);
+  }
+  .topbar-wordmark-name {
+    font: 800 16px/1 var(--font-sans, Inter, sans-serif);
+    letter-spacing: 0.06em;
+  }
+  .topbar-wordmark-suffix {
+    font: 500 12px/1 var(--font-mono, "Geist Mono", monospace);
+    letter-spacing: 0.08em;
+    color: var(--c-neutral-700, #525252);
+  }
+  .topbar-wordmark:focus-visible {
+    outline: 2px solid var(--c-accent-500, #E8B306);
+    outline-offset: 2px;
+  }
+
+  .topbar-logo {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .topbar-logo svg { display: block; height: 24px; width: auto; }
+  .topbar-logo:focus-visible {
+    outline: 2px solid var(--c-yellow-500);
+    outline-offset: 4px;
+  }
+  .topbar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-6);
+    flex: 1;
+    justify-content: center;
+  }
+  .topbar-link {
+    font: var(--typo-body-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: var(--space-2) 0;
+    border-bottom: 2px solid transparent;
+    transition: color 150ms, border-color 150ms;
+  }
+  .topbar-link:hover { color: var(--text-primary); }
+  .topbar-link.is-active {
+    color: var(--text-primary);
+    border-bottom-color: var(--text-primary);
+    font-weight: 700;
+  }
+  .topbar-link:focus-visible {
+    outline: 2px solid var(--c-yellow-500);
+    outline-offset: 2px;
+  }
+  .topbar-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
+  .topbar-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    background: #fafafa;
+    border: 1px solid var(--border-default);
+    font: var(--typo-caption);
+    font-family: 'Geist Mono', monospace;
+    color: var(--text-secondary);
+  }
+  .topbar-chip .chip-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--c-green-500, #1F7A3A);
+    border-radius: 50%;
+  }
+  .topbar-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    padding: var(--space-2);
+    cursor: pointer;
+    color: var(--text-primary);
+  }
+  .topbar-toggle:focus-visible {
+    outline: 2px solid var(--c-yellow-500);
+    outline-offset: 2px;
+  }
+
+  /* Shell layout */
+  .shell {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 220px;
+    gap: 0;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 56px;
+    align-self: start;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    border-right: var(--border-1) solid var(--border-default);
+    padding: var(--space-6) 0;
+  }
+  .sidebar-inner {
+    padding: 0 var(--space-5);
+  }
+  .sidebar-section-toggle {
+    display: inline-flex;
+    padding: 2px;
+    background: #fafafa;
+    border: 1px solid var(--border-default);
+    border-radius: 999px;
+    margin-bottom: var(--space-5);
+  }
+  .sidebar-section-toggle .pill {
+    border: none;
+    background: transparent;
+    padding: var(--space-2) var(--space-4);
+    font: var(--typo-body-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 999px;
+  }
+  .sidebar-section-toggle .pill.is-active {
+    background: #ffffff;
+    color: var(--text-primary);
+    font-weight: 700;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+  .sidebar-section-toggle .pill:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .sidebar-heading {
+    font: var(--typo-label);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin: 0 0 var(--space-3) 0;
+    font-weight: 700;
+  }
+  .sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .sidebar-link {
+    display: block;
+    font: var(--typo-body-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-left: 2px solid transparent;
+    transition: color 120ms, background 120ms, border-color 120ms;
+  }
+  .sidebar-link:hover {
+    color: var(--text-primary);
+    background: #fafafa;
+  }
+  .sidebar-link.is-active {
+    color: var(--text-primary);
+    background: #fafafa;
+    border-left-color: var(--text-primary);
+    font-weight: 600;
+  }
+  .sidebar-link:focus-visible {
+    outline: 2px solid var(--c-yellow-500);
+    outline-offset: -2px;
+  }
+
+  /* Main canvas overrides for shell context */
+  .shell > .canvas {
+    max-width: none;
+    padding: var(--space-10) var(--space-8);
+    min-width: 0;
+  }
+  .shell > .canvas:focus { outline: none; }
+
+  /* Right rail */
+  .rightrail {
+    position: sticky;
+    top: 56px;
+    align-self: start;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    padding: var(--space-6) 0;
+    border-left: var(--border-1) solid var(--border-default);
+  }
+  .rightrail-inner {
+    padding: 0 var(--space-5);
+  }
+  .rightrail-heading {
+    font: var(--typo-label);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin: 0 0 var(--space-3) 0;
+    font-weight: 700;
+  }
+  .rightrail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border-left: 1px solid var(--border-default);
+  }
+  .rightrail-link {
+    display: block;
+    font: var(--typo-caption);
+    color: var(--text-tertiary);
+    text-decoration: none;
+    padding: var(--space-1) var(--space-3);
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    transition: color 120ms, border-color 120ms;
+    line-height: 1.4;
+  }
+  .rightrail-link.is-sub { padding-left: var(--space-5); }
+  .rightrail-link:hover { color: var(--text-primary); }
+  .rightrail-link.is-active {
+    color: var(--text-primary);
+    border-left-color: var(--text-primary);
+    font-weight: 600;
+  }
+  .rightrail-link:focus-visible {
+    outline: 2px solid var(--c-yellow-500);
+    outline-offset: 2px;
+  }
+
+  /* Backdrop (mobile drawer) */
+  .nav-backdrop {
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: rgba(10, 10, 10, 0.5);
+    z-index: 80;
+  }
+
+  /* Scroll-margin so anchored sections land below topbar */
+  section[id^="sec-"] {
+    scroll-margin-top: 72px;
+  }
+  main h2[id], main h3[id] {
+    scroll-margin-top: 72px;
+  }
+
+  /* Responsive — tablet (1024px) */
+  @media (max-width: 1279px) {
+    .shell { grid-template-columns: 220px minmax(0, 1fr); }
+    .rightrail { display: none; }
+  }
+
+  /* Responsive — mobile (1023px) */
+  @media (max-width: 1023px) {
+    .topbar-links { display: none; }
+    .topbar-toggle { display: inline-flex; }
+    .shell { grid-template-columns: 1fr; }
+    .sidebar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      max-width: 80vw;
+      background: #ffffff;
+      border-right: var(--border-1) solid var(--border-default);
+      z-index: 90;
+      transform: translateX(-100%);
+      transition: transform 250ms ease;
+      height: auto;
+    }
+    .sidebar.is-open { transform: translateX(0); }
+    .shell > .canvas { padding: var(--space-6) var(--space-5); }
+  }
+
+  @media (max-width: 640px) {
+    .topbar-inner { padding: var(--space-3) var(--space-4); }
+    .topbar-logo svg { height: 20px; }
+    .topbar-wordmark-name { font-size: 14px; }
+    .topbar-wordmark-suffix { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
-<div class="canvas">
+
+<!-- ============================================
+     SKIP LINK — WCAG 2.4.1
+     ============================================ -->
+<a href="#main-content" class="skip-link">Spring naar hoofdinhoud</a>
+
+<!-- ============================================
+     TOPBAR — sticky primaire navigatie
+     ============================================ -->
+<nav class="topbar" aria-label="Hoofdnavigatie">
+  <div class="topbar-inner">
+    <a href="#sec-r1" class="topbar-wordmark" aria-label="Roosevelt OPS — ga naar boven">
+      <span class="topbar-wordmark-name">ROOSEVELT</span><span class="topbar-wordmark-suffix">OPS</span>
+    </a>
+    <ul class="topbar-links" role="list">
+      <li><a href="#sec-r1" class="topbar-link is-active" aria-current="page">Foundations</a></li>
+      <li><a href="#sec-r3-components" class="topbar-link">Components</a></li>
+      <li><a href="#sec-r7" class="topbar-link">Editorial</a></li>
+      <li><a href="#sec-r8" class="topbar-link">Responsive</a></li>
+      <li><a href="#footer" class="topbar-link">Resources</a></li>
+    </ul>
+    <div class="topbar-meta">
+      <span class="topbar-chip"><span class="chip-dot"></span>v0.8.1</span>
+      <button class="topbar-toggle" id="nav-toggle" aria-expanded="false" aria-controls="sidebar-nav" aria-label="Navigatie openen">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <rect x="2" y="4" width="16" height="1.5" fill="currentColor"/>
+          <rect x="2" y="9.25" width="16" height="1.5" fill="currentColor"/>
+          <rect x="2" y="14.5" width="16" height="1.5" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================
+     SHELL — 3-koloms layout (sidebar / content / rail)
+     ============================================ -->
+<div class="shell">
+
+  <!-- LEFT SIDEBAR — sticky IA -->
+  <aside class="sidebar" id="sidebar-nav" aria-label="Foundations navigatie">
+    <div class="sidebar-inner">
+      <div class="sidebar-section-toggle" role="group" aria-label="Domein">
+        <button class="pill is-active" aria-pressed="true">Product</button>
+        <button class="pill" aria-pressed="false" disabled title="Beschikbaar in H2 — mei-aug 2026">Editorial</button>
+      </div>
+      <p class="sidebar-heading">Foundations</p>
+      <ul class="sidebar-list" role="list">
+        <li><a href="#sec-r1" class="sidebar-link" data-target="sec-r1">Manifest &amp; canon</a></li>
+        <li><a href="#sec-r2" class="sidebar-link" data-target="sec-r2">Typografie</a></li>
+        <li><a href="#sec-r3" class="sidebar-link" data-target="sec-r3">Kleur</a></li>
+        <li><a href="#sec-r3-agents" class="sidebar-link" data-target="sec-r3-agents">Agent-rollen</a></li>
+        <li><a href="#sec-r3-pipeline" class="sidebar-link" data-target="sec-r3-pipeline">Pipeline F0–F9</a></li>
+        <li><a href="#sec-r3-components" class="sidebar-link" data-target="sec-r3-components">Componenten</a></li>
+        <li><a href="#sec-r3-report" class="sidebar-link" data-target="sec-r3-report">Adviesrapport</a></li>
+        <li><a href="#sec-r4" class="sidebar-link" data-target="sec-r4">Grid &amp; spacing</a></li>
+        <li><a href="#sec-r5" class="sidebar-link" data-target="sec-r5">Iconography</a></li>
+        <li><a href="#sec-r6" class="sidebar-link" data-target="sec-r6">Logo</a></li>
+        <li><a href="#sec-r7" class="sidebar-link" data-target="sec-r7">Editorial foundations</a></li>
+        <li><a href="#sec-r8" class="sidebar-link" data-target="sec-r8">Responsive (Apple HIG)</a></li>
+      </ul>
+      <p class="sidebar-heading" style="margin-top: var(--space-6);">Resources</p>
+      <ul class="sidebar-list" role="list">
+        <li><a href="./tokens.json" class="sidebar-link" target="_blank" rel="noopener">tokens.json &darr;</a></li>
+        <li><a href="./gap-analyse-en-roadmap.md" class="sidebar-link" target="_blank" rel="noopener">Gap-analyse &amp; roadmap &darr;</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT — bestaande canvas -->
+  <main class="canvas" id="main-content" tabindex="-1">
 
   <!-- ============================================
        MANIFEST HEADER
        ============================================ -->
   <header>
-    <div class="manifest-eyebrow">Roosevelt OPS — Headless Design System</div>
-    <h1 class="manifest-title">Een Bauhaus-canon voor operational excellence.</h1>
-    <p class="manifest-sub">
-      Vijf stromingen — Weimar, Dessau, De Stijl, Ulm en Gugelot/Rams — vertaald naar één meetbaar designsysteem voor de F0–F9 adviespipeline. Niet generiek, niet corporate-koud, niet hype-AI.
-    </p>
-    <div class="manifest-meta">
-      <span><span class="dot"></span>v0.1 · 14 mei 2026</span>
-      <span><span class="dot" style="background: var(--c-yellow-500);"></span>Concept &amp; Design fase</span>
-      <span><span class="dot" style="background: var(--c-red-500);"></span>DSR · ICIS 2026 Lissabon</span>
+    <div class="logo-header" aria-label="Roosevelt OPS logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 96" role="img" aria-label="Roosevelt OPS">
+        <style>
+          .wm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
+                font-weight: 800; font-size: 56px; letter-spacing: 0.06em;
+                fill: #0a0a0a; font-variation-settings: 'opsz' 32, 'wght' 800; }
+          .ops { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+                 font-weight: 500; font-size: 18px; letter-spacing: 0.08em; fill: #525252; }
+        </style>
+        <g transform="translate(16, 16)">
+          <g transform="scale(0.875)" fill="#0a0a0a">
+            <rect x="0" y="0" width="16" height="64"/>
+            <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
+            <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
+          </g>
+        </g>
+        <text x="96" y="66" class="wm">ROOSEVELT</text>
+        <text x="488" y="66" class="ops">OPS</text>
+      </svg>
     </div>
+    <div class="manifest-eyebrow">Headless Design System</div>
+    <h1 class="manifest-title">Een Bauhaus-canon voor operationele uitmuntendheid.</h1>
   </header>
 
   <!-- ============================================
        CANON-STATEMENT (Mondriaan-blok)
        ============================================ -->
-  <section>
+  <section id="sec-r1" aria-labelledby="r1-canon">
+    <div class="eyebrow">Ronde 1 · Manifest</div>
     <div class="section-head">
-      <h2>De canon</h2>
-      <p>Vijf stromingen, één formule. Bij conflict wint de canon altijd — geen designbeslissing zonder anker in een van deze pijlers.</p>
+      <h2 id="r1-canon">De canon</h2>
     </div>
     <div class="canon">
       <div class="canon-cell lg">
@@ -865,10 +1443,10 @@
   <!-- ============================================
        TYPOGRAFISCHE SCHAAL
        ============================================ -->
-  <section>
+  <section id="sec-r2" aria-labelledby="r2-typo">
+    <div class="eyebrow">Ronde 2 · Typografie</div>
     <div class="section-head">
-      <h2>Typografie</h2>
-      <p>Inter Variable als Bayer-erfgenaam, modulaire schaal ratio 1.250 (major third). Mono voor pipeline-data, niet voor sfeer.</p>
+      <h2 id="r2-typo">Typografie</h2>
     </div>
     <div class="type-scale">
       <div class="type-row">
@@ -921,10 +1499,10 @@
   <!-- ============================================
        KLEUR — Weimar-semantiek
        ============================================ -->
-  <section>
+  <section id="sec-r3" aria-labelledby="r3-color">
+    <div class="eyebrow">Ronde 3 · Kleur</div>
     <div class="section-head">
-      <h2>Kleur — Weimar-semantiek</h2>
-      <p>Drie primairen met vaste rol: blauw = strategic, rood = risk, geel = advisory. Hergebruik buiten rol is verboden.</p>
+      <h2 id="r3-color">Kleur — Weimar-semantiek</h2>
     </div>
 
     <h3 style="font: var(--typo-h4); margin-bottom: var(--space-4);">Layer 1 — Grondstoffen</h3>
@@ -962,10 +1540,10 @@
   <!-- ============================================
        AGENT-ROLLEN
        ============================================ -->
-  <section>
+  <section id="sec-r3-agents" aria-labelledby="r3-agents">
+    <div class="eyebrow">Ronde 3 · Agent-rollen</div>
     <div class="section-head">
-      <h2>Agent-rollen</h2>
-      <p>Vier rollen, vier kleuren. Layer 2 semantic-tokens koppelen Kandinsky's vorm-kleur-systeem aan Roosevelt's pipeline-architectuur.</p>
+      <h2 id="r3-agents">Agent-rollen</h2>
     </div>
     <div class="agent-grid">
       <div class="agent-card">
@@ -998,21 +1576,21 @@
   <!-- ============================================
        PIPELINE F0–F9
        ============================================ -->
-  <section>
+  <section id="sec-r3-pipeline" aria-labelledby="r3-pipeline">
+    <div class="eyebrow">Ronde 3 · Pipeline</div>
     <div class="section-head">
-      <h2>Pipeline F0–F9</h2>
-      <p>Layer 4 tokens. Visueel verloop van neutraal naar agent-rol-kleur — een volgordesignaal, geen decoratie.</p>
+      <h2 id="r3-pipeline">Pipeline F0–F9</h2>
     </div>
     <div class="pipeline">
       <div class="pipe-step pipe-F0"><span class="pipe-code">F0</span><span class="pipe-label">Intake</span></div>
       <div class="pipe-step pipe-F1"><span class="pipe-code">F1</span><span class="pipe-label">Collect</span></div>
       <div class="pipe-step pipe-F2"><span class="pipe-code">F2</span><span class="pipe-label">Pre</span></div>
-      <div class="pipe-step pipe-F3"><span class="pipe-code">F3</span><span class="pipe-label">Strategic</span></div>
-      <div class="pipe-step pipe-F4 active"><span class="pipe-code">F4</span><span class="pipe-label">Core</span></div>
-      <div class="pipe-step pipe-F5"><span class="pipe-code">F5</span><span class="pipe-label">Depth</span></div>
-      <div class="pipe-step pipe-F6"><span class="pipe-code">F6</span><span class="pipe-label">Review</span></div>
-      <div class="pipe-step pipe-F7"><span class="pipe-code">F7</span><span class="pipe-label">Final</span></div>
-      <div class="pipe-step pipe-F8"><span class="pipe-code">F8</span><span class="pipe-label">Rapport</span></div>
+      <div class="pipe-step pipe-F3"><span class="pipe-code">F3</span><span class="pipe-label">Core-map</span></div>
+      <div class="pipe-step pipe-F4 active"><span class="pipe-code">F4</span><span class="pipe-label">Depth</span></div>
+      <div class="pipe-step pipe-F5"><span class="pipe-code">F5</span><span class="pipe-label">Review</span></div>
+      <div class="pipe-step pipe-F6"><span class="pipe-code">F6</span><span class="pipe-label">Triangulatie</span></div>
+      <div class="pipe-step pipe-F7"><span class="pipe-code">F7</span><span class="pipe-label">Multi-Judge</span></div>
+      <div class="pipe-step pipe-F8"><span class="pipe-code">F8</span><span class="pipe-label">Render</span></div>
       <div class="pipe-step pipe-F9"><span class="pipe-code">F9</span><span class="pipe-label">Impact</span></div>
     </div>
   </section>
@@ -1020,10 +1598,10 @@
   <!-- ============================================
        STATUS-BADGES + KNOPPEN
        ============================================ -->
-  <section>
+  <section id="sec-r3-components" aria-labelledby="r3-components">
+    <div class="eyebrow">Ronde 3 · Componenten</div>
     <div class="section-head">
-      <h2>Componenten</h2>
-      <p>Status-badges (vijf staten) en knoppen. Mondriaan-rechthoeken, scherpe hoeken, Bauhaus-rust.</p>
+      <h2 id="r3-components">Componenten</h2>
     </div>
 
     <h4 style="font: var(--typo-label); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: var(--space-3);">Status-badges</h4>
@@ -1047,10 +1625,10 @@
   <!-- ============================================
        ADVIESRAPPORT-PREVIEW
        ============================================ -->
-  <section>
+  <section id="sec-r3-report" aria-labelledby="r3-report">
+    <div class="eyebrow">Ronde 3 · Adviesrapport</div>
     <div class="section-head">
-      <h2>Adviesrapport — agent-cards</h2>
-      <p>F9-output. Vier agent-rollen, één layout. Mondriaan-stripe links als rol-marker, body-tekst max 60ch (Bringhurst).</p>
+      <h2 id="r3-report">Adviesrapport — agent-cards</h2>
     </div>
     <div class="report-grid">
       <div class="report-card strategic">
@@ -1058,7 +1636,7 @@
         <div>
           <div class="role-label">Strategic Agent</div>
           <h3>AI-readiness fundament</h3>
-          <p>De salesorganisatie heeft 67% van haar processen gedigitaliseerd, maar slechts 14% AI-gevalideerd. Aanbeveling: start met conversational-AI in F2 (lead-qualification).</p>
+          <p>Uw salesorganisatie heeft 67% van uw processen gedigitaliseerd, maar slechts 14% AI-gevalideerd. Wij adviseren te starten met conversational-AI in F2 (lead-qualification).</p>
           <div class="metrics">
             <div><span class="metric-label">AI-score</span>67/100</div>
             <div><span class="metric-label">Maturity</span>L2 / L4</div>
@@ -1111,7 +1689,7 @@
   <!-- ============================================
        RONDE 4 — GRID (De Stijl asymmetrisch 12-kol)
        ============================================ -->
-  <section class="section" aria-labelledby="r4-grid">
+  <section class="section" id="sec-r4" aria-labelledby="r4-grid">
     <div class="eyebrow">Ronde 4 · Grid</div>
     <h2 id="r4-grid">12 kolommen, asymmetrisch</h2>
     <div class="grid-demo">
@@ -1250,7 +1828,7 @@
     <div class="focus-row">
       <button class="btn btn-primary focus-demo" type="button">Tab hierheen</button>
       <button class="btn btn-secondary focus-demo" type="button">Tab</button>
-      <input class="focus-demo-input" placeholder="Focus mij" />
+      <input class="focus-demo-input" placeholder="Focus hier" />
       <a href="#r4-motion" class="focus-demo-link">Tekstlink</a>
     </div>
     <p class="motion-note">2px blue · 2px offset · alleen op <code>:focus-visible</code></p>
@@ -1259,12 +1837,9 @@
   <!-- ============================================
        RONDE 5 — ICONOGRAPHY (Lucide-override)
        ============================================ -->
-  <section class="section" aria-labelledby="r5-icons">
+  <section class="section" id="sec-r5" aria-labelledby="r5-icons">
     <div class="eyebrow">Ronde 5 · Iconography</div>
     <h2 id="r5-icons">Lucide — Roosevelt-gecustomized</h2>
-    <p style="font: var(--typo-body-sm); color: var(--text-secondary); margin-top: var(--space-2); max-width: 60ch;">
-      1.5px stroke · square caps · miter joins · 24px primair, 16px micro. Geen 2px round (Lucide default).
-    </p>
     <div class="icon-grid">
       <!-- ChevronRight @ 24 -->
       <div class="icon-card">
@@ -1311,35 +1886,35 @@
       Kandinsky's kleur-vorm-matrix: cirkel (oneindig), driehoek (intellect), vierkant (materialiteit), rechthoek (structuur).
     </p>
     <div class="agent-pictogram-row">
-      <!-- Strategic = cirkel -->
-      <div class="agent-picto-card">
-        <svg class="agent-picto-svg" viewBox="0 0 48 48">
-          <circle cx="24" cy="24" r="18" fill="none" stroke="#1E4D8C" stroke-width="3"/>
+      <!-- Strategic = cirkel — stroke inherits via currentColor -->
+      <div class="agent-picto-card strategic">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48" stroke-width="3">
+          <circle cx="24" cy="24" r="18"/>
         </svg>
-        <div class="agent-picto-name" style="color: var(--c-blue-500);">Strategic</div>
+        <div class="agent-picto-name">Strategic</div>
         <div class="agent-picto-quote">“continually moving, eternally rotating” — Itten</div>
       </div>
       <!-- Risk = vierkant + diagonaal -->
-      <div class="agent-picto-card">
-        <svg class="agent-picto-svg" viewBox="0 0 48 48">
-          <rect x="8" y="8" width="32" height="32" fill="none" stroke="#C8332B" stroke-width="3"/>
-          <line x1="8" y1="8" x2="40" y2="40" stroke="#C8332B" stroke-width="3"/>
+      <div class="agent-picto-card risk">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48" stroke-width="3">
+          <rect x="8" y="8" width="32" height="32"/>
+          <line x1="8" y1="8" x2="40" y2="40"/>
         </svg>
-        <div class="agent-picto-name" style="color: var(--c-red-500);">Risk</div>
+        <div class="agent-picto-name">Risk</div>
         <div class="agent-picto-quote">“intensive inner seething” — Kandinsky</div>
       </div>
       <!-- Advisory = driehoek met radius -->
-      <div class="agent-picto-card">
-        <svg class="agent-picto-svg" viewBox="0 0 48 48">
-          <path d="M24 7 L41 39 L7 39 Z" fill="none" stroke="#E8B306" stroke-width="3" stroke-linejoin="round"/>
+      <div class="agent-picto-card advisory">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48" stroke-width="3" stroke-linejoin="round">
+          <path d="M24 7 L41 39 L7 39 Z"/>
         </svg>
-        <div class="agent-picto-name" style="color: var(--c-yellow-600);">Advisory</div>
+        <div class="agent-picto-name">Advisory</div>
         <div class="agent-picto-quote">Driehoek = intellectuele energie + human touch</div>
       </div>
       <!-- Technical = rechthoek -->
-      <div class="agent-picto-card">
-        <svg class="agent-picto-svg" viewBox="0 0 48 48">
-          <rect x="6" y="15" width="36" height="18" fill="none" stroke="#262626" stroke-width="3"/>
+      <div class="agent-picto-card technical">
+        <svg class="agent-picto-svg" viewBox="0 0 48 48" stroke-width="3">
+          <rect x="6" y="15" width="36" height="18"/>
         </svg>
         <div class="agent-picto-name">Technical</div>
         <div class="agent-picto-quote">Aicher-grid — pure structuurlogica</div>
@@ -1373,9 +1948,9 @@
     <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Duotone-hybride — agent × fase</h3>
     <div class="duotone-demo">
       <svg class="duotone-svg" viewBox="0 0 96 96">
-        <circle cx="48" cy="48" r="40" fill="#A3A3A3" fill-opacity="0.2"/>
-        <circle cx="48" cy="48" r="40" fill="none" stroke="#1E4D8C" stroke-width="3"/>
-        <text x="48" y="56" font-family="Geist Mono, ui-monospace, monospace" font-size="28" font-weight="500" fill="#102C54" text-anchor="middle">F3</text>
+        <circle class="layer-phase" cx="48" cy="48" r="40"/>
+        <circle class="layer-agent" cx="48" cy="48" r="40" stroke-width="3"/>
+        <text class="layer-digit" x="48" y="56" font-size="28" font-weight="500" text-anchor="middle">F3</text>
       </svg>
       <div class="duotone-meta">
         Strategic Agent in fase F3. Cirkel-outline (blauw) draagt agent-rol; gevulde grijze laag draagt fase-cluster (F0–F4 diagnostiek). Twee informatielagen, één pictogram — Aicher's configureerbare syntaxis, digitaal vertaald.
@@ -1384,21 +1959,560 @@
   </section>
 
   <!-- ============================================
+       RONDE 6 — LOGO
+       ============================================ -->
+  <section class="section" id="sec-r6" aria-labelledby="r6-logo">
+    <div class="eyebrow">Ronde 6 · Logo</div>
+    <h2 id="r6-logo">Bauhaus-strict woordmerk &amp; monogram</h2>
+
+    <div class="logo-grid">
+      <div class="logo-card">
+        <div class="logo-canvas">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Roosevelt monogram">
+            <title>Roosevelt monogram</title>
+            <g fill="#0a0a0a">
+              <rect x="0" y="0" width="16" height="64"/>
+              <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
+              <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Monogram</div>
+          <div class="logo-meta">8×8 raster · zwart #0a0a0a · min 16px</div>
+        </div>
+      </div>
+
+      <div class="logo-card inverse">
+        <div class="logo-canvas">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Roosevelt monogram inverse">
+            <title>Roosevelt monogram inverse</title>
+            <rect x="0" y="0" width="64" height="64" fill="#0a0a0a"/>
+            <g fill="#ffffff">
+              <rect x="0" y="0" width="16" height="64"/>
+              <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
+              <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Monogram inverse</div>
+          <div class="logo-meta">Wit op zwart · voor donkere achtergronden</div>
+        </div>
+      </div>
+
+      <div class="logo-card">
+        <div class="logo-canvas">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Roosevelt favicon" class="favicon-svg">
+            <rect width="32" height="32" fill="#0a0a0a"/>
+            <g fill="#ffffff" transform="translate(6, 4)">
+              <rect x="0" y="0" width="6" height="24"/>
+              <path d="M 6 0 A 12 12 0 0 1 6 12 L 6 6 A 6 6 0 0 0 6 0 Z"/>
+              <path d="M 6 12 L 12 12 L 24 24 L 18 24 Z"/>
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Favicon</div>
+          <div class="logo-meta">32×32 · pixel-snapped · monogram-only</div>
+        </div>
+      </div>
+
+      <div class="logo-card" style="grid-column: span 3;">
+        <div class="logo-canvas" style="min-height: 80px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 64" role="img" aria-label="Roosevelt">
+            <style>
+              .r6-wm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
+                       font-weight: 800; font-size: 56px; letter-spacing: 0.06em;
+                       fill: #0a0a0a; font-variation-settings: 'opsz' 32, 'wght' 800; }
+            </style>
+            <text x="0" y="50" class="r6-wm">ROOSEVELT</text>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Woordmerk</div>
+          <div class="logo-meta">Inter Variable · wght 800 · opsz 32 · tracking 0.06em · uppercase</div>
+        </div>
+      </div>
+
+      <div class="logo-card" style="grid-column: span 2;">
+        <div class="logo-canvas" style="min-height: 96px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 96" role="img" aria-label="Roosevelt OPS">
+            <style>
+              .r6-hwm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
+                        font-weight: 800; font-size: 56px; letter-spacing: 0.06em;
+                        fill: #0a0a0a; font-variation-settings: 'opsz' 32, 'wght' 800; }
+              .r6-hops { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+                         font-weight: 500; font-size: 18px; letter-spacing: 0.08em; fill: #525252; }
+            </style>
+            <g transform="translate(16, 16)">
+              <g transform="scale(0.875)" fill="#0a0a0a">
+                <rect x="0" y="0" width="16" height="64"/>
+                <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
+                <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
+              </g>
+            </g>
+            <text x="96" y="66" class="r6-hwm">ROOSEVELT</text>
+            <text x="488" y="66" class="r6-hops">OPS</text>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Lockup horizontaal</div>
+          <div class="logo-meta">Header, presentaties, rapport-cover · monogram + woordmerk + OPS</div>
+        </div>
+      </div>
+
+      <div class="logo-card">
+        <div class="logo-canvas" style="min-height: 160px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" role="img" aria-label="Roosevelt OPS" style="max-height: 160px;">
+            <style>
+              .r6-vwm { font-family: 'Inter', 'Inter Variable', system-ui, sans-serif;
+                        font-weight: 800; font-size: 36px; letter-spacing: 0.06em;
+                        fill: #0a0a0a; text-anchor: middle;
+                        font-variation-settings: 'opsz' 32, 'wght' 800; }
+              .r6-vops { font-family: 'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+                         font-weight: 500; font-size: 13px; letter-spacing: 0.08em;
+                         fill: #525252; text-anchor: middle; }
+            </style>
+            <g transform="translate(128, 16)" fill="#0a0a0a">
+              <rect x="0" y="0" width="16" height="64"/>
+              <path d="M 16 0 A 32 32 0 0 1 16 32 L 16 16 A 16 16 0 0 0 16 0 Z"/>
+              <path d="M 16 32 L 32 32 L 64 64 L 48 64 Z"/>
+            </g>
+            <text x="160" y="130" class="r6-vwm">ROOSEVELT</text>
+            <text x="160" y="156" class="r6-vops">OPS</text>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">Lockup verticaal</div>
+          <div class="logo-meta">Avatars, business cards, smalle contexten</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Tokens · logo</h3>
+    <table class="logo-spec-table">
+      <thead>
+        <tr><th>Token</th><th>Waarde</th><th>Toepassing</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>logo.wordmark.font</code></td><td>Inter Variable</td><td>Woordmerk ROOSEVELT — Bayer-erfgenaam</td></tr>
+        <tr><td><code>logo.wordmark.weight</code></td><td>800</td><td>ExtraBold, architecturale aanwezigheid</td></tr>
+        <tr><td><code>logo.wordmark.opsz</code></td><td>32</td><td>Display optical size</td></tr>
+        <tr><td><code>logo.wordmark.case</code></td><td>uppercase</td><td>All-caps verplicht — Heineken-gevel-principe</td></tr>
+        <tr><td><code>logo.wordmark.tracking</code></td><td>0.06em</td><td>Letter-spacing</td></tr>
+        <tr><td><code>logo.wordmark.color</code></td><td><code>#0a0a0a</code></td><td>Primair op licht</td></tr>
+        <tr><td><code>logo.wordmark.color.inverse</code></td><td><code>#ffffff</code></td><td>Op donkere achtergrond</td></tr>
+        <tr><td><code>logo.tagline.font</code></td><td>Geist Mono</td><td>OPS en sub-labels</td></tr>
+        <tr><td><code>logo.tagline.color</code></td><td><code>#525252</code></td><td>Hiërarchie onder woordmerk</td></tr>
+        <tr><td><code>logo.monogram.grid</code></td><td>8×8 (1u = 8px)</td><td>Eenheden-raster op 64px canvas</td></tr>
+        <tr><td><code>logo.monogram.stem.width</code></td><td>2u (16px)</td><td>Stam-dikte</td></tr>
+        <tr><td><code>logo.monogram.bowl.outer</code></td><td>4u (32px)</td><td>Buitenradius bowl</td></tr>
+        <tr><td><code>logo.monogram.bowl.inner</code></td><td>2u (16px)</td><td>Binnenradius = stam-breedte</td></tr>
+        <tr><td><code>logo.monogram.leg.angle</code></td><td>45°</td><td>Diagonaal exact 1:1, geen optische correctie</td></tr>
+        <tr><td><code>logo.clearspace</code></td><td>1 cap-height</td><td>Beschermzone rondom</td></tr>
+        <tr><td><code>logo.size.min.digital</code></td><td>24px</td><td>Minimaal woordmerk — 16px monogram (favicon)</td></tr>
+        <tr><td><code>logo.size.min.print</code></td><td>20mm</td><td>Drukwerk-minimum</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-8); margin-bottom: var(--space-4);">Accessibility</h3>
+    <table class="logo-spec-table">
+      <thead>
+        <tr><th>Combinatie</th><th>Ratio</th><th>WCAG</th><th>APCA Lc</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>#0a0a0a</code> op <code>#ffffff</code></td><td>20.4:1</td><td>AAA</td><td>106</td></tr>
+        <tr><td><code>#ffffff</code> op <code>#0a0a0a</code></td><td>20.4:1</td><td>AAA</td><td>108</td></tr>
+        <tr><td><code>#525252</code> op <code>#ffffff</code> (tagline)</td><td>7.5:1</td><td>AAA Large · AA Body</td><td>75</td></tr>
+      </tbody>
+    </table>
+
+    <div class="do-dont-grid">
+      <div class="do-dont-col do">
+        <h4>Do</h4>
+        <ul>
+          <li>Plaats logo op rustig wit/zwart vlak</li>
+          <li>Behoud 1 cap-height clearspace</li>
+          <li>Gebruik officiële SVG-bestanden</li>
+          <li>Zwart op licht, wit op donker</li>
+          <li>Combineer met Inter Variable in body</li>
+          <li>Behoud all-caps en tracking 0.06em</li>
+        </ul>
+      </div>
+      <div class="do-dont-col dont">
+        <h4>Don't</h4>
+        <ul>
+          <li>Geen foto's, gradients of textuur als achtergrond</li>
+          <li>Geen schaduw, glow, gradient of 3D-effect</li>
+          <li>Geen goud, brons of koper (anti-canon)</li>
+          <li>Niet stretchen, scheef trekken of roteren</li>
+          <li>Geen serif of decoratieve display-font</li>
+          <li>Niet onder 24px digitaal of 20mm print</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       Ronde 7 — Editorial Foundations
+       Anker: grammar.md v1.0 + vocabulary.md v1.0
+       ============================================ -->
+  <section class="section" id="sec-r7" aria-labelledby="r7-editorial">
+    <div class="eyebrow">Ronde 7 · Editorial</div>
+    <h2 id="r7-editorial">Editorial foundations &mdash; grammar &amp; vocabulary</h2>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">7.1 &mdash; Roosevelt-lexicon (15 wel/niet-termen)</h3>
+    <p class="helper" style="margin-bottom: var(--space-4);">Bron: <code>vocabulary.md</code> &middot; sectie 4 Do/Don't-lijst</p>
+    <table class="logo-spec-table">
+      <thead><tr><th>Wel gebruiken</th><th>Niet gebruiken</th><th>Reden</th></tr></thead>
+      <tbody>
+        <tr><td><code>diagnose</code></td><td>analyse</td><td>Medisch-technisch framing &mdash; analyse is generiek</td></tr>
+        <tr><td><code>raamwerk</code></td><td>framework (klant-copy)</td><td>Academisch register &mdash; framework alleen in developer-docs</td></tr>
+        <tr><td><code>fase</code></td><td>stap, step</td><td>Sluit aan op F0&ndash;F9 pipeline-taal</td></tr>
+        <tr><td><code>readiness</code></td><td>gereedheid, volwassenheid</td><td>Ingeburgerd vakterm (MITRE AI MM, CMMI)</td></tr>
+        <tr><td><code>menselijk oordeel</code></td><td>human-in-the-loop (klant-copy)</td><td>NL-term met menselijke connotatie in UI/rapport</td></tr>
+        <tr><td><code>advies</code></td><td>suggestie, tip</td><td>Roosevelt levert substantieel advies, geen tips</td></tr>
+        <tr><td><code>inzicht</code></td><td>insight</td><td>NL en zwaarder qua register</td></tr>
+        <tr><td><code>salesteam</code></td><td>sales team, verkoopteam</td><td>Aaneengesloten compound &mdash; verkoopteam te formeel</td></tr>
+        <tr><td><code>intake</code></td><td>vragenlijst, assessment</td><td>Roosevelts eigen term &mdash; assessment is Concentrix-taal</td></tr>
+        <tr><td><code>pipeline</code></td><td>pijplijn, workflow</td><td>Technische en klant-gebruikte term</td></tr>
+        <tr><td><code>clustering</code></td><td>groepering, categorisering</td><td>Technisch correct voor F3</td></tr>
+        <tr><td><code>dimensie</code></td><td>categorie, as, domein</td><td>Modelmatig begrip &mdash; academisch register</td></tr>
+        <tr><td><code>Strategic Agent</code></td><td>strategische agent, hoofd-agent</td><td>Eigennaam &mdash; NL-variant verlaagt register</td></tr>
+        <tr><td><code>AI-readiness</code></td><td>AI-maturiteit, AI-volwassenheid</td><td>Roosevelts eigen positioneringsterm</td></tr>
+        <tr><td><code>operationeel</code></td><td>actief, live, draaiend</td><td>Juiste zakelijke register</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">7.2 &mdash; Verboden termen (hype-AI &amp; corporate-koud)</h3>
+    <p class="helper" style="margin-bottom: var(--space-4);">Bron: <code>vocabulary.md</code> &middot; sectie 6.1 en 6.2 &middot; absoluut verboden in alle klant-facing teksten</p>
+    <div class="do-dont-grid">
+      <div class="do-card" style="background: #fef2f2; border-left: 4px solid #c8332b; padding: var(--space-4); border-radius: var(--radius-md);">
+        <p style="font-weight: 600; margin-bottom: var(--space-2);">Hype-AI &mdash; verboden</p>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem;">
+          <li>&times; revolutionair, game-changer</li>
+          <li>&times; AI-powered, next-generation</li>
+          <li>&times; cutting-edge, state-of-the-art</li>
+          <li>&times; transformeer, unlock the power of</li>
+          <li>&times; leverage, synergy, disruptief</li>
+          <li>&times; holistic, magic, seamless</li>
+          <li>&times; empowering, future-proof</li>
+          <li>&times; end-to-end (vaag), real-time (zonder spec)</li>
+          <li>&times; insights als standalone buzzword</li>
+        </ul>
+      </div>
+      <div class="do-card" style="background: #fef2f2; border-left: 4px solid #c8332b; padding: var(--space-4); border-radius: var(--radius-md);">
+        <p style="font-weight: 600; margin-bottom: var(--space-2);">Corporate-koud &mdash; verboden in klant-copy</p>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem;">
+          <li>&times; the organization &rarr; uw salesteam</li>
+          <li>&times; your enterprise &rarr; uw salesorganisatie</li>
+          <li>&times; our solution &rarr; Roosevelt OPS</li>
+          <li>&times; stakeholders &rarr; uw salesleiding</li>
+          <li>&times; deliverables &rarr; het adviesrapport</li>
+          <li>&times; action items &rarr; de volgende stap</li>
+          <li>&times; value-added &rarr; welke waarde concreet</li>
+          <li>&times; emojis &mdash; alle</li>
+          <li>&times; uitroeptekens &mdash; alle</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">7.3 &mdash; Grammar-conventies</h3>
+    <p class="helper" style="margin-bottom: var(--space-4);">Bron: <code>grammar.md</code> v1.0 &middot; ANS &amp; Nederlandse Taalunie als basis</p>
+    <table class="logo-spec-table">
+      <thead><tr><th>Conventie</th><th>Regel</th><th>Voorbeeld</th></tr></thead>
+      <tbody>
+        <tr><td>Aanspreking UI F0&ndash;F8</td><td>je / jouw &mdash; werkplaats-register</td><td>&laquo;Start je intake&raquo;</td></tr>
+        <tr><td>Aanspreking rapport F9</td><td>u / uw &mdash; C-level, formeel</td><td>&laquo;Uw salesorganisatie heeft 67%&hellip;&raquo;</td></tr>
+        <tr><td>Hoofdletters</td><td>Zinscase &mdash; geen titlecase</td><td>&laquo;Start uw intake&raquo;, niet &laquo;Start Uw Intake&raquo;</td></tr>
+        <tr><td>Uitroeptekens</td><td>Absoluut verboden</td><td>&laquo;Uw rapport is gereed.&raquo; nooit &laquo;Klaar!&raquo;</td></tr>
+        <tr><td>Streepjes</td><td>Em-dash &mdash; voor terzijde, en-dash &ndash; voor bereik (F0&ndash;F9)</td><td>&laquo;Roosevelt OPS &mdash; een pipeline &mdash; analyseert&raquo;</td></tr>
+        <tr><td>Komma</td><td>Geen Oxford-komma in NL</td><td>&laquo;F3, F4 en F5&raquo;</td></tr>
+        <tr><td>Getallen</td><td>1&ndash;12 uitschrijven, vanaf 13 cijfers, in data altijd cijfers</td><td>&laquo;zeven fasen&raquo; &middot; &laquo;14 dimensies&raquo;</td></tr>
+        <tr><td>Decimaal</td><td>Komma (NL), punt voor duizendtal</td><td>73,4 &middot; 1.250 klanten</td></tr>
+        <tr><td>Datum klant-facing</td><td>DD maand JJJJ uitgeschreven</td><td>14 mei 2026</td></tr>
+        <tr><td>F-prefix</td><td>Hoofdletter F + getal, geen spatie</td><td>F0, F3, F9 &middot; nooit f3, F-3, fase-3</td></tr>
+        <tr><td>Zinslengte UI-microcopy</td><td>&le; 5 woorden labels/buttons</td><td>&laquo;Start intake&raquo;</td></tr>
+        <tr><td>Zinslengte UI-body</td><td>&le; 22 woorden helper-text</td><td>Less-is-more (Bauhaus 1.5)</td></tr>
+        <tr><td>Zinslengte rapport</td><td>&le; 30 woorden per zin</td><td>C-level leest scannerend</td></tr>
+        <tr><td>Stem</td><td>Actief voorkeur &mdash; passief acceptabel als agent irrelevant</td><td>&laquo;F3 clustert uw intakegegevens&raquo;</td></tr>
+        <tr><td>Zin-opening</td><td>Niet beginnen met &laquo;Wij&raquo;, &laquo;Er&raquo;, &laquo;Gewoon&raquo;, &laquo;Eigenlijk&raquo;</td><td>&laquo;Roosevelt identificeert drie aanbevelingen&raquo;</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">7.4 &mdash; UI-microcopy voorbeelden</h3>
+    <p class="helper" style="margin-bottom: var(--space-4);">Toepassing van grammar.md + vocabulary.md in Roosevelt-context</p>
+    <div class="do-dont-grid">
+      <div class="do-card" style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: var(--space-4); border-radius: var(--radius-md);">
+        <p style="font-weight: 600; margin-bottom: var(--space-3);">Wel &mdash; canon-correct</p>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem; line-height: 1.7;">
+          <li>&check; <em>UI button</em>: &laquo;Start intake&raquo;</li>
+          <li>&check; <em>Helper text</em>: &laquo;Je voortgang is bewaard.&raquo;</li>
+          <li>&check; <em>Lege staat</em>: &laquo;Nog geen diagnose. Start je intake.&raquo;</li>
+          <li>&check; <em>F4-status</em>: &laquo;F4 Strategic-kern &mdash; 67% verwerkt&raquo;</li>
+          <li>&check; <em>Foutmelding</em>: &laquo;De pipeline kon F3 niet voltooien. Probeer opnieuw.&raquo;</li>
+          <li>&check; <em>F9-rapport</em>: &laquo;Uw salesorganisatie scoort 34 op Dimensie 3 Proces-automatisering &mdash; het laagste van vier dimensies.&raquo;</li>
+          <li>&check; <em>Bevestiging</em>: &laquo;Intake verwijderen?&raquo;</li>
+        </ul>
+      </div>
+      <div class="do-card" style="background: #fef2f2; border-left: 4px solid #c8332b; padding: var(--space-4); border-radius: var(--radius-md);">
+        <p style="font-weight: 600; margin-bottom: var(--space-3);">Niet &mdash; canon-overtreding</p>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.875rem; line-height: 1.7;">
+          <li>&times; &laquo;Start Uw Intake!&raquo; <small>(titlecase + uitroepteken)</small></li>
+          <li>&times; &laquo;Je bent er bijna!&raquo; <small>(consumer-gamification)</small></li>
+          <li>&times; &laquo;Oeps! Er ging iets mis&raquo; <small>(neerbuigend + Er-opening)</small></li>
+          <li>&times; &laquo;Step 4 &mdash; analyzing your data&raquo; <small>(Engels + step ipv F-prefix)</small></li>
+          <li>&times; &laquo;Onze AI-powered solution&hellip;&raquo; <small>(hype + our solution)</small></li>
+          <li>&times; &laquo;Your enterprise heeft 3 action items&raquo; <small>(Concentrix-taal + cijfer onder 13)</small></li>
+          <li>&times; &laquo;Gefeliciteerd! Uw rapport is klaar!&raquo; <small>(uitroeptekens + overdreven)</small></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">7.5 &mdash; Conflict-policy</h3>
+    <table class="logo-spec-table">
+      <thead><tr><th>Twijfel-domein</th><th>Winnaar</th><th>Bestand</th></tr></thead>
+      <tbody>
+        <tr><td>Register (formeel vs werkplaats)</td><td>Tone of voice</td><td><code>tone-of-voice.md</code></td></tr>
+        <tr><td>Specifieke woordkeuze</td><td>Vocabulary</td><td><code>vocabulary.md</code></td></tr>
+        <tr><td>Leestekens, zinsbouw, getallen</td><td>Grammar</td><td><code>grammar.md</code></td></tr>
+        <tr><td>Spelling</td><td>Nederlandse Taalunie</td><td>Woordenlijst NL Taal</td></tr>
+        <tr><td>Grammatica-edge-case</td><td>ANS</td><td>Algemene Nederlandse Spraakkunst</td></tr>
+        <tr><td>Visuele canon-overtreding</td><td>Bauhaus-canon</td><td><code>bauhaus-canon.md</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============================================
+       RONDE 8 — RESPONSIVE FOUNDATIONS (Apple HIG-geïnspireerd)
+       Bauhaus wint. HIG = principes + touch-targets, niet visuele taal.
+       ============================================ -->
+  <section class="section" id="sec-r8" aria-labelledby="r8-responsive">
+    <div class="eyebrow">Ronde 8 &middot; Responsive foundations</div>
+    <h2 id="r8-responsive">Adaptive layout &mdash; Apple HIG &times; Bauhaus</h2>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">8.1 &mdash; Conflict-policy</h3>
+    <table class="logo-spec-table">
+      <thead><tr><th>Apple HIG levert</th><th>Roosevelt-canon wint bij</th><th>Beslissing</th></tr></thead>
+      <tbody>
+        <tr><td>Compact / Regular size classes</td><td>&mdash;</td><td>Overgenomen als <code>--bp-compact</code> / <code>--bp-regular</code></td></tr>
+        <tr><td>44pt minimum touch target</td><td>&mdash;</td><td>Overgenomen: <code>--touch-min: 44px</code></td></tr>
+        <tr><td>Safe area insets</td><td>&mdash;</td><td>Overgenomen via <code>env(safe-area-inset-*)</code></td></tr>
+        <tr><td>Dynamic Type (system font scaling)</td><td>Inter Variable + modular scale</td><td>Bauhaus wint &mdash; geen system font, wel <code>clamp()</code></td></tr>
+        <tr><td>SF Pro / Apple kleuren / rounded corners</td><td>Bauhaus-canon</td><td>Bauhaus wint &mdash; niet overgenomen</td></tr>
+        <tr><td>iOS Liquid Glass / blur</td><td>Bauhaus &ldquo;form follows function&rdquo;</td><td>Bauhaus wint &mdash; geen materials/blur</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">8.2 &mdash; Breakpoint-tokens (DTCG)</h3>
+    <p class="helper" style="margin-bottom: var(--space-4);">Bron: Apple HIG size classes + Wise.design dual-column threshold. Stack-agnostisch.</p>
+    <table class="logo-spec-table">
+      <thead><tr><th>Token</th><th>Waarde</th><th>HIG-equivalent</th><th>Roosevelt-gebruik</th></tr></thead>
+      <tbody>
+        <tr><td><code>--bp-compact</code></td><td>0&ndash;639px</td><td>Compact width (iPhone portrait)</td><td>Single-column, drawer-nav, body uit grid</td></tr>
+        <tr><td><code>--bp-regular-sm</code></td><td>640&ndash;1023px</td><td>Regular width compact (iPad portrait, iPhone landscape Plus)</td><td>2-koloms content, sidebar nog drawer</td></tr>
+        <tr><td><code>--bp-regular-md</code></td><td>1024&ndash;1279px</td><td>Regular (iPad landscape)</td><td>Sidebar zichtbaar, right-rail verborgen</td></tr>
+        <tr><td><code>--bp-regular-lg</code></td><td>1280px+</td><td>Regular extended (iPad Pro, desktop)</td><td>3-koloms: sidebar + main + right-rail</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">8.3 &mdash; Touch-target &amp; safe-area tokens</h3>
+    <table class="logo-spec-table">
+      <thead><tr><th>Token</th><th>Waarde</th><th>Bron</th><th>Toepassing</th></tr></thead>
+      <tbody>
+        <tr><td><code>--touch-min</code></td><td>44px</td><td>Apple HIG (iOS) &mdash; minimum tap-zone</td><td>Knoppen, links, form-controls op &lt; 1024px</td></tr>
+        <tr><td><code>--touch-comfortable</code></td><td>48px</td><td>Material 3 &mdash; convergerend met HIG</td><td>Primaire CTA, mobile drawer-items</td></tr>
+        <tr><td><code>--safe-top</code></td><td><code>env(safe-area-inset-top)</code></td><td>Apple HIG safe area</td><td>Sticky topbar, fixed dialogs</td></tr>
+        <tr><td><code>--safe-bottom</code></td><td><code>env(safe-area-inset-bottom)</code></td><td>Apple HIG safe area</td><td>Sticky CTA-bar, footer-fix</td></tr>
+        <tr><td><code>--safe-left</code> / <code>--safe-right</code></td><td><code>env(safe-area-inset-left/right)</code></td><td>Apple HIG (notch + landscape)</td><td>Edge-content op landscape iPhones</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">8.4 &mdash; Adaptive principes (HIG &rarr; Roosevelt)</h3>
+    <table class="logo-spec-table">
+      <thead><tr><th>HIG-principe</th><th>Roosevelt-interpretatie</th><th>Bewijs in prototype</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Prioritization</strong> &mdash; essentials prominent</td><td>F0&ndash;F9 pipeline + adviesrapport eerst, foundations als ondersteuning</td><td>Top-bar volgorde: Foundations &rarr; Components &rarr; Editorial &rarr; Responsive</td></tr>
+        <tr><td><strong>Content extension</strong> &mdash; edge-to-edge</td><td>Sectie-backgrounds tot rand, content respecteert safe-area</td><td>Section padding gebruikt <code>max()</code> met safe-area</td></tr>
+        <tr><td><strong>Visual hierarchy</strong> &mdash; top + leading</td><td>Eyebrow &rarr; H2 &rarr; demo &mdash; geen lede-paragrafen (Bauhaus: vorm volgt functie)</td><td>v0.8.1 cleanup: alle lede paragrafen verwijderd</td></tr>
+        <tr><td><strong>Adaptability traits</strong></td><td>3-koloms &rarr; 2-koloms &rarr; 1-koloms-with-drawer transitie</td><td>1280 / 1024 / 640 breakpoints (zie 8.2)</td></tr>
+        <tr><td><strong>Defer compact switch</strong> (iPad resize)</td><td>Sidebar blijft zichtbaar tot &lt; 1024px &mdash; pas dan drawer</td><td><code>@media (max-width: 1023px)</code> regel in topbar/sidebar CSS</td></tr>
+        <tr><td><strong>Dynamic Type respect</strong></td><td>Geen system-font, wel <code>clamp()</code> + relatieve units zodat user-zoom werkt</td><td>Type-scale tokens in <code>tokens.json</code> v0.3+</td></tr>
+        <tr><td><strong>Control spacing</strong></td><td>44px tap-zones op mobile, 32px op desktop hover</td><td>Topbar-toggle, sidebar-link, drawer-items</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">8.5 &mdash; Layout-shifts per breakpoint</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-4); margin-top: var(--space-3);">
+      <div style="border: 1px solid var(--border-default); padding: var(--space-4);">
+        <div class="eyebrow" style="margin-bottom: var(--space-2);">Compact &middot; &lt; 640px</div>
+        <div style="font: var(--typo-body-sm); color: var(--text-secondary);">
+          1 koloms. Topbar collapsed naar hamburger. Sidebar &rarr; drawer. Right-rail verborgen. Body-padding 16px. Touch 44px+.
+        </div>
+      </div>
+      <div style="border: 1px solid var(--border-default); padding: var(--space-4);">
+        <div class="eyebrow" style="margin-bottom: var(--space-2);">Regular-sm &middot; 640&ndash;1023</div>
+        <div style="font: var(--typo-body-sm); color: var(--text-secondary);">
+          1 koloms content, tabellen breder. Sidebar nog drawer. Right-rail nog verborgen. Body-padding 24px.
+        </div>
+      </div>
+      <div style="border: 1px solid var(--border-default); padding: var(--space-4);">
+        <div class="eyebrow" style="margin-bottom: var(--space-2);">Regular-md &middot; 1024&ndash;1279</div>
+        <div style="font: var(--typo-body-sm); color: var(--text-secondary);">
+          2-koloms: sidebar 240px + main. Right-rail nog verborgen. Topbar volledig zichtbaar.
+        </div>
+      </div>
+      <div style="border: 1px solid var(--border-default); padding: var(--space-4);">
+        <div class="eyebrow" style="margin-bottom: var(--space-2);">Regular-lg &middot; 1280+</div>
+        <div style="font: var(--typo-body-sm); color: var(--text-secondary);">
+          3-koloms: sidebar 240px + main + right-rail 220px. Scrollspy actief. Volledige Wise.design-stijl.
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--space-6); margin-bottom: var(--space-3);">8.6 &mdash; Wat we niet overnemen van Apple HIG</h3>
+    <table class="logo-spec-table">
+      <thead><tr><th>HIG-pattern</th><th>Reden om niet over te nemen</th></tr></thead>
+      <tbody>
+        <tr><td>SF Pro / SF Rounded fonts</td><td>Inter Variable is Bauhaus-erfgenaam &mdash; canon-verankerd</td></tr>
+        <tr><td>iOS rounded corners (16pt default)</td><td>Bauhaus = scherpe hoeken, rechthoek + cirkel als primitieven</td></tr>
+        <tr><td>Liquid Glass / vibrancy / blur</td><td>&ldquo;Form follows function&rdquo; &mdash; decoratie zonder functie</td></tr>
+        <tr><td>Apple system kleuren (Blue, Indigo, Pink)</td><td>Goud (#E8B306) is canon, accent-palet is vastgesteld</td></tr>
+        <tr><td>Tab-bar onderaan</td><td>Roosevelt is desktop-first B2B; sidebar + topbar wint</td></tr>
+        <tr><td>Haptic feedback patterns</td><td>Web-context, niet native</td></tr>
+      </tbody>
+    </table>
+
+    <p class="helper" style="margin-top: var(--space-5);">
+      Bron: <a href="https://developer.apple.com/design/human-interface-guidelines/layout" target="_blank" rel="noopener">Apple HIG &mdash; Layout</a> &middot; geïntegreerd in <code>tokens.json</code> v0.8.1 onder <code>breakpoint.*</code> en <code>touch.*</code>.
+    </p>
+  </section>
+
+  <!-- ============================================
        FOOTER
        ============================================ -->
-  <footer>
-    <div>
-      <p style="margin-bottom: var(--space-2);">Roosevelt OPS Headless Design System — Prototype v0.5</p>
-      <p>Auteur: Sam Swaab · 14 mei 2026 · Concept &amp; Design fase</p>
-      <p style="margin-top: var(--space-2);">Ronde 1–5 ✓ · Targetpublicatie ICIS 2026 Lissabon · DSR (Hevner 2004, Peffers 2007)</p>
+  <footer id="footer"></footer>
+
+  </main>
+
+  <!-- RIGHT RAIL — sticky scrollspy “Op deze pagina” -->
+  <aside class="rightrail" aria-label="Op deze pagina">
+    <div class="rightrail-inner">
+      <p class="rightrail-heading">Op deze pagina</p>
+      <ul class="rightrail-list" id="rightrail-list" role="list">
+        <!-- gevuld door JS bij init -->
+      </ul>
     </div>
-    <div>
-      <p style="margin-bottom: var(--space-2);">Bronnen</p>
-      <p><code>bauhaus-canon.md</code> · <code>tokens.json</code></p>
-      <p><code>mission.md</code> · <code>colour.md</code> · <code>typography.md</code></p>
-    </div>
-  </footer>
+  </aside>
 
 </div>
+
+<!-- ============================================
+     NAV BACKDROP (mobile)
+     ============================================ -->
+<div class="nav-backdrop" id="nav-backdrop" hidden></div>
+
+<!-- ============================================
+     NAV INTERACTIE — scrollspy + mobile drawer
+     ============================================ -->
+<script>
+(function(){
+  'use strict';
+
+  // ---------- Mobile drawer ----------
+  var toggle = document.getElementById('nav-toggle');
+  var sidebar = document.getElementById('sidebar-nav');
+  var backdrop = document.getElementById('nav-backdrop');
+
+  function setDrawer(open){
+    if(open){
+      sidebar.classList.add('is-open');
+      backdrop.hidden = false;
+      toggle.setAttribute('aria-expanded','true');
+      toggle.setAttribute('aria-label','Navigatie sluiten');
+      document.body.style.overflow = 'hidden';
+    } else {
+      sidebar.classList.remove('is-open');
+      backdrop.hidden = true;
+      toggle.setAttribute('aria-expanded','false');
+      toggle.setAttribute('aria-label','Navigatie openen');
+      document.body.style.overflow = '';
+    }
+  }
+  toggle && toggle.addEventListener('click', function(){
+    setDrawer(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+  backdrop && backdrop.addEventListener('click', function(){ setDrawer(false); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') setDrawer(false);
+  });
+
+  // close drawer on link click (mobile)
+  document.querySelectorAll('.sidebar-link').forEach(function(a){
+    a.addEventListener('click', function(){
+      if(window.matchMedia('(max-width: 1023px)').matches) setDrawer(false);
+    });
+  });
+
+  // ---------- Scrollspy ----------
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[id^="sec-"]'));
+  var sidebarLinks = Array.prototype.slice.call(document.querySelectorAll('.sidebar-link[data-target]'));
+
+  function activate(id){
+    sidebarLinks.forEach(function(link){
+      var match = link.getAttribute('data-target') === id;
+      link.classList.toggle('is-active', match);
+      if(match) link.setAttribute('aria-current','location'); else link.removeAttribute('aria-current');
+    });
+  }
+
+  if('IntersectionObserver' in window && sections.length){
+    var obs = new IntersectionObserver(function(entries){
+      // pick the topmost intersecting section
+      var visible = entries.filter(function(e){ return e.isIntersecting; });
+      if(visible.length){
+        visible.sort(function(a,b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+        activate(visible[0].target.id);
+      }
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+
+  // ---------- Right rail “On this page” ----------
+  var rail = document.getElementById('rightrail-list');
+  if(rail){
+    // collect all h2 + h3 with id
+    var headings = document.querySelectorAll('main h2[id], main h3[id]');
+    headings.forEach(function(h){
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.replace(/\s+/g,' ').trim();
+      a.className = 'rightrail-link';
+      a.dataset.target = h.id;
+      if(h.tagName === 'H3') a.classList.add('is-sub');
+      li.appendChild(a);
+      rail.appendChild(li);
+    });
+
+    var railLinks = rail.querySelectorAll('.rightrail-link');
+    if('IntersectionObserver' in window && headings.length){
+      var obs2 = new IntersectionObserver(function(entries){
+        var visible = entries.filter(function(e){ return e.isIntersecting; });
+        if(visible.length){
+          visible.sort(function(a,b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+          var activeId = visible[0].target.id;
+          railLinks.forEach(function(l){
+            l.classList.toggle('is-active', l.dataset.target === activeId);
+          });
+        }
+      }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+      headings.forEach(function(h){ obs2.observe(h); });
+    }
+  }
+})();
+</script>
+
 </body>
 </html>
