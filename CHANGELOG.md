@@ -2,6 +2,11 @@
 
 Volgens [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · SemVer 2.0.
 
+## [0.8.3] — 2026-05-14
+
+### Removed
+- Manifest-header wordmark uit body verwijderd — topbar-wordmark blijft als enige Roosevelt-OPS-identificatie in nav-context. Bauhaus: één wordmark per scherm volstaat.
+
 ## [0.8.2] — 2026-05-14
 
 ### Removed
