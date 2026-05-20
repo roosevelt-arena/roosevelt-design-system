@@ -1,0 +1,36 @@
+name: ADR-tracker
+description: Tracking-issue voor een Architecture Decision Record
+labels: ["type:adr", "status:in-progress"]
+body:
+  - type: input
+    id: adr_num
+    attributes:
+      label: ADR nummer
+      placeholder: "ADR-034"
+    validations:
+      required: true
+  - type: input
+    id: adr_title
+    attributes:
+      label: Titel
+    validations:
+      required: true
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Proposed
+        - Accepted
+        - Superseded
+        - Deprecated
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context (samenvatting)
+  - type: input
+    id: supersedes
+    attributes:
+      label: Vervangt ADR (indien van toepassing)

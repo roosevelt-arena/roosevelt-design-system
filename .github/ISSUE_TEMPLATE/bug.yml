@@ -1,0 +1,25 @@
+name: Bug report
+description: Iets werkt niet zoals verwacht
+labels: ["type:bug", "status:triage"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Wat ging er mis?
+      placeholder: Beschrijf het verwachte vs feitelijke gedrag
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproductie-stappen
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Omgeving (versie, OS, branch)

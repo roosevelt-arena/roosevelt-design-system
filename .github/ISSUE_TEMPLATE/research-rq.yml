@@ -1,0 +1,33 @@
+name: Research RQ-OE item
+description: Onderzoekstaak voor RQ-OE-1 t/m 8
+labels: ["type:research", "status:in-progress"]
+body:
+  - type: dropdown
+    id: rq_oe
+    attributes:
+      label: RQ-OE nummer
+      options:
+        - RQ-OE-1
+        - RQ-OE-2
+        - RQ-OE-3
+        - RQ-OE-4
+        - RQ-OE-5
+        - RQ-OE-6
+        - RQ-OE-7
+        - RQ-OE-8
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Hypothese
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Methode (DSR-cycle, meetinstrument)
+  - type: textarea
+    id: variables
+    attributes:
+      label: IV / DV / Controle-variabelen
