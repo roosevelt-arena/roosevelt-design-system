@@ -1,0 +1,37 @@
+name: OpEx-task
+description: Werk uit OpEx-aanbevelingen 1-14
+labels: ["type:opex", "status:refined"]
+body:
+  - type: dropdown
+    id: opex
+    attributes:
+      label: Welke OpEx-aanbeveling?
+      options:
+        - 1-CI-rigor
+        - 2-Branch-protection
+        - 3-CODEOWNERS
+        - 4-ADR-rigor
+        - 5-Test-coverage
+        - 6-Secrets-mgmt
+        - 7-Observability
+        - 8-Docs
+        - 9-Issue-hygiene
+        - 10-PR-review
+        - 11-Release-process
+        - 12-Dependency-mgmt
+        - 13-Security-scanning
+        - 14-Incident-response
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptatie-criteria
+      placeholder: |
+        - [ ] ...

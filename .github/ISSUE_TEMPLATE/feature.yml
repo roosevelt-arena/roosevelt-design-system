@@ -1,0 +1,31 @@
+name: Feature request
+description: Nieuwe functionaliteit
+labels: ["type:feature", "status:refinement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Welk probleem lost dit op?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Voorgestelde oplossing
+  - type: dropdown
+    id: rq
+    attributes:
+      label: Gerelateerd aan welke RQ?
+      options:
+        - RQ1
+        - RQ2
+        - RQ3
+        - RQ-OE-1
+        - RQ-OE-2
+        - RQ-OE-3
+        - RQ-OE-4
+        - RQ-OE-5
+        - RQ-OE-6
+        - RQ-OE-7
+        - RQ-OE-8
+        - n/a
