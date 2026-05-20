@@ -1,0 +1,16 @@
+# CODEOWNERS — roosevelt-design-system
+# Sprint S0 / item S0.7
+# Doc: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner — alles
+* @hansbeeksma
+
+# Governance + ADRs + CI configuration
+/docs/decisions/   @hansbeeksma
+/docs/adr/         @hansbeeksma
+/.github/          @hansbeeksma
+/docs/             @hansbeeksma
+
+# Brand-assets
+/tokens/   @hansbeeksma
+/brand/    @hansbeeksma
